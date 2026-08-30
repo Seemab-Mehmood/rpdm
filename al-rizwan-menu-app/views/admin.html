@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Rizwan — Staff Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Poppins:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161009; --char:#221913; --char2:#2b2019;
+    --gold:#f2b134; --ember:#d5342b; --cream:#f6ecda; --cream-dim:#cbbfab; --teal:#3fa896;
+    --line: rgba(246,236,218,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ink);color:var(--cream);font-family:'Poppins',sans-serif;min-height:100vh;}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px;}
+  h1{font-family:'Fredoka',sans-serif;font-size:20px;color:var(--gold);margin:0 0 4px;}
+  .sub{font-size:12px;color:var(--cream-dim);margin-bottom:24px;}
+
+  .card{background:var(--char);border:1px solid var(--line);border-radius:16px;padding:20px;}
+  input[type="password"]{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--char2);color:var(--cream);font-size:14px;margin-bottom:12px;}
+  button{padding:12px 16px;border-radius:10px;border:none;background:var(--gold);color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;}
+  button.secondary{background:var(--char2);color:var(--cream);border:1px solid var(--line);}
+  .error{color:var(--ember);font-size:12.5px;margin:-4px 0 10px;display:none;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .logout{font-size:12px;color:var(--cream-dim);background:none;border:none;text-decoration:underline;cursor:pointer;padding:0;}
+
+  .cat-block{margin-bottom:22px;}
+  .cat-name{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:10px;}
+  .row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .row .r-name{flex:1;min-width:140px;font-size:13px;color:var(--cream);}
+  .row .r-name small{display:block;color:var(--cream-dim);font-size:10.5px;}
+  .row input[type="number"]{width:72px;padding:7px 8px;border-radius:7px;border:1px solid var(--line);background:var(--char2);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+  .row .avail{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--cream-dim);}
+  .row .avail input{accent-color:var(--gold);}
+  .row .saved{font-size:10.5px;color:var(--teal);opacity:0;transition:opacity .3s;}
+  .row .saved.show{opacity:1;}
+
+  .log-card{margin-top:26px;}
+  .log-item{font-size:11.5px;color:var(--cream-dim);padding:6px 0;border-bottom:1px dashed var(--line);}
+  .log-item:last-child{border-bottom:none;}
+  .log-item b{color:var(--gold);font-weight:600;}
+  .empty{font-size:12px;color:var(--cream-dim);}
+  .loading{text-align:center;padding:30px;color:var(--cream-dim);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="loginView">
+    <h1>Staff Admin</h1>
+    <div class="sub">Al-Rizwan Paratha Experts — menu control panel</div>
+    <div class="card">
+      <input type="password" id="password" placeholder="Enter staff password" autocomplete="current-password">
+      <div class="error" id="loginError">Incorrect password.</div>
+      <button id="loginBtn">Unlock</button>
+    </div>
+  </div>
+
+  <div id="panelView" style="display:none;">
+    <div class="topbar">
+      <div>
+        <h1>Menu Admin</h1>
+        <div class="sub">Changes save instantly and appear on every customer's phone.</div>
+      </div>
+      <button class="logout" id="logoutBtn">Log out</button>
+    </div>
+
+    <div id="itemsArea" class="loading">Loading menu…</div>
+
+    <div class="card log-card">
+      <h1 style="font-size:14px;">Change log</h1>
+      <div id="logArea" class="empty">No changes yet.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const loginView = document.getElementById('loginView');
+const panelView = document.getElementById('panelView');
+
+async function checkSession(){
+  const res = await fetch('/api/admin/session');
+  const data = await res.json();
+  if(data.loggedIn) showPanel(); else showLogin();
+}
+
+function showLogin(){ loginView.style.display='block'; panelView.style.display='none'; }
+function showPanel(){ loginView.style.display='none'; panelView.style.display='block'; loadItems(); loadLog(); }
+
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('password').addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
+
+async function login(){
+  const password = document.getElementById('password').value;
+  const res = await fetch('/api/admin/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ password })
+  });
+  if(res.ok){ showPanel(); }
+  else { document.getElementById('loginError').style.display = 'block'; }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+  await fetch('/api/admin/logout', { method:'POST' });
+  showLogin();
+});
+
+async function loadItems(){
+  const res = await fetch('/api/admin/items');
+  if(!res.ok){ showLogin(); return; }
+  const items = await res.json();
+
+  const byCat = {};
+  items.forEach(it=>{
+    const key = it.category_icon + ' ' + it.category_label;
+    (byCat[key] = byCat[key] || []).push(it);
+  });
+
+  let html = '';
+  Object.entries(byCat).forEach(([catLabel, rows])=>{
+    html += `<div class="cat-block"><div class="cat-name">${catLabel}</div>`;
+    rows.forEach(it=>{
+      html += `
+        <div class="row" data-id="${it.id}">
+          <div class="r-name">${it.name}<small>${it.group_name}</small></div>
+          <input type="number" class="p-price" value="${it.price}" min="0">
+          ${it.price2 !== null ? `<input type="number" class="p-price2" value="${it.price2}" min="0">` : ''}
+          <label class="avail"><input type="checkbox" class="p-avail" ${it.available ? 'checked':''}> In stock</label>
+          <span class="saved" id="saved-${it.id}">Saved ✓</span>
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('itemsArea').innerHTML = html || '<div class="empty">No menu items found — run the seed script.</div>';
+
+  document.querySelectorAll('.row').forEach(row=>{
+    const id = row.dataset.id;
+    const priceInput = row.querySelector('.p-price');
+    const price2Input = row.querySelector('.p-price2');
+    const availInput = row.querySelector('.p-avail');
+
+    async function save(){
+      const body = { price: Number(priceInput.value), available: availInput.checked };
+      if(price2Input) body.price2 = Number(price2Input.value);
+      const res = await fetch(`/api/admin/items/${id}`, {
+        method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+      });
+      if(res.ok){
+        const badge = document.getElementById(`saved-${id}`);
+        badge.classList.add('show');
+        setTimeout(()=>badge.classList.remove('show'), 1500);
+        loadLog();
+      }
+    }
+    priceInput.addEventListener('change', save);
+    if(price2Input) price2Input.addEventListener('change', save);
+    availInput.addEventListener('change', save);
+  });
+}
+
+async function loadLog(){
+  const res = await fetch('/api/admin/log');
+  if(!res.ok) return;
+  const rows = await res.json();
+  if(!rows.length){ document.getElementById('logArea').innerHTML = '<div class="empty">No changes yet.</div>'; return; }
+  document.getElementById('logArea').innerHTML = rows.map(r=>{
+    const t = new Date(r.created_at).toLocaleString([], {dateStyle:'medium', timeStyle:'short'});
+    return `<div class="log-item"><b>${t}</b> — ${r.message}</div>`;
+  }).join('');
+}
+
+checkSession();
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Al-Rizwan Paratha Experts — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:ital,wght@0,400;0,500;0,600;1,500&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161009; --char:#221913; --char2:#2b2019;
+    --gold:#f2b134; --gold-deep:#c98a1f;
+    --ember:#d5342b; --ember-deep:#a3241d;
+    --cream:#f6ecda; --cream-dim:#cbbfab; --teal:#3fa896;
+    --line: rgba(246,236,218,0.14);
+    --shadow: 0 10px 30px rgba(0,0,0,0.45);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%, #2b2019 0%, var(--ink) 55%),var(--ink);color:var(--cream);font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;}
+  ::selection{background:var(--gold);color:var(--ink);}
+  a{color:inherit;}
+
+  .bg-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+  .bg-piece{position:absolute;opacity:.16;filter:blur(.2px);animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
+  @keyframes driftA{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(18px,-26px) rotate(14deg);}100%{transform:translate(0,0) rotate(0deg);}}
+  @keyframes driftB{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(-22px,20px) rotate(-12deg);}100%{transform:translate(0,0) rotate(0deg);}}
+  @keyframes driftC{0%{transform:translate(0,0) rotate(0deg) scale(1);}50%{transform:translate(12px,24px) rotate(8deg) scale(1.05);}100%{transform:translate(0,0) rotate(0deg) scale(1);}}
+  @media (prefers-reduced-motion: reduce){.bg-piece{animation:none !important;}}
+
+  .wrap{max-width:560px;margin:0 auto;position:relative;min-height:100vh;padding-bottom:96px;z-index:1;}
+
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(22,16,9,0.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .topbar img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+  .topbar .tb-text{flex:1;min-width:0;}
+  .topbar .tb-name{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar .tb-sub{font-size:10px;color:var(--cream-dim);white-space:nowrap;}
+  .tb-call{display:flex;align-items:center;gap:6px;background:var(--ember);color:#fff;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(213,52,43,0.4);white-space:nowrap;}
+
+  .hero{position:relative;padding:34px 20px 26px;text-align:center;background:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 26px);border-bottom:1px solid var(--line);overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(320px 200px at 50% 0%, rgba(242,177,52,0.16), transparent 70%);pointer-events:none;}
+  .badge-24{position:relative;display:inline-flex;align-items:center;gap:6px;background:var(--char2);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:1px;color:var(--gold);margin-bottom:16px;font-weight:600;}
+  .badge-24 .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  .logo-frame{position:relative;width:132px;height:132px;margin:0 auto 18px;}
+  .logo-frame img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--gold);box-shadow: var(--shadow), 0 0 0 6px rgba(242,177,52,0.08);filter:grayscale(1) contrast(1.05);}
+  .steam{position:absolute;top:-26px;right:6px;width:36px;height:34px;opacity:.9;}
+  .steam path{stroke:var(--cream-dim);stroke-width:2.4;fill:none;stroke-linecap:round;}
+  .steam .s1{animation:rise 3s ease-in-out infinite;}
+  .steam .s2{animation:rise 3s ease-in-out .5s infinite;}
+  .steam .s3{animation:rise 3s ease-in-out 1s infinite;}
+  @keyframes rise{0%{transform:translateY(6px);opacity:0;}30%{opacity:.9;}100%{transform:translateY(-10px);opacity:0;}}
+
+  .brand{position:relative;font-family:'Fredoka',sans-serif;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.5px;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,0.5);}
+  .brand span{color:var(--cream);}
+  .tagline{position:relative;font-size:13px;color:var(--cream-dim);letter-spacing:.5px;margin-top:6px;font-style:italic;}
+  .hero-sub{position:relative;margin-top:16px;font-size:12.5px;color:var(--cream-dim);display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+  .hero-sub span{display:flex;align-items:center;gap:5px;}
+  .scroll-cue{position:relative;margin-top:22px;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .scroll-cue svg{animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+
+  .cat-section{padding:22px 0 4px;}
+  .cat-title{padding:0 20px 12px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;color:var(--cream-dim);letter-spacing:.5px;}
+  .cat-title b{color:var(--gold);}
+  .carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 20px 14px;-ms-overflow-style:none;scrollbar-width:none;}
+  .carousel::-webkit-scrollbar{display:none;}
+  .cat-card{scroll-snap-align:start;flex:0 0 auto;width:92px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 10px;background:var(--char);border:1px solid var(--line);border-radius:18px;cursor:pointer;transition:transform .25s ease, border-color .25s ease, background .25s ease;}
+  .cat-card .ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--char2);font-size:22px;border:1px solid var(--line);transition:background .25s ease, transform .25s ease, box-shadow .25s ease;}
+  .cat-card .lbl{font-size:10.5px;text-align:center;line-height:1.25;color:var(--cream-dim);font-weight:600;}
+  .cat-card.active{border-color:var(--gold);background:linear-gradient(180deg, rgba(242,177,52,0.14), rgba(242,177,52,0.03));transform:translateY(-3px);}
+  .cat-card.active .ic{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.35);transform:scale(1.06);}
+  .cat-card.active .lbl{color:var(--gold);}
+
+  .menu-panel{padding:6px 20px 10px;min-height:340px;}
+  .dissolve{animation:dissolveIn .38s ease both;}
+  @keyframes dissolveIn{from{opacity:0;filter:blur(6px);transform:translateY(10px) scale(.985);}to{opacity:1;filter:blur(0);transform:translateY(0) scale(1);}}
+  .dissolve-out{animation:dissolveOut .22s ease both;}
+  @keyframes dissolveOut{from{opacity:1;filter:blur(0);}to{opacity:0;filter:blur(6px);}}
+
+  .cat-header{display:flex;align-items:center;gap:10px;margin:6px 0 16px;}
+  .cat-header .ic-big{width:46px;height:46px;border-radius:14px;background:var(--char);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;flex:0 0 auto;}
+  .cat-header h2{font-family:'Fredoka',sans-serif;font-size:19px;margin:0;color:var(--cream);}
+  .cat-header p{margin:2px 0 0;font-size:11.5px;color:var(--cream-dim);}
+
+  .group{margin-bottom:22px;}
+  .group-title{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 10px 2px;display:flex;align-items:center;gap:8px;}
+  .group-title::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  .item{display:flex;align-items:baseline;gap:8px;padding:10px 6px;margin:0 -6px;border-radius:10px;border-bottom:1px dashed var(--line);cursor:pointer;user-select:none;position:relative;transition:background .18s ease, box-shadow .18s ease, transform .12s ease;}
+  .item:last-child{border-bottom:none;}
+  .item:active{transform:scale(.99);}
+  .item .name{font-size:14px;font-weight:500;color:var(--cream);}
+  .item .urdu{display:block;font-size:11.5px;color:var(--cream-dim);margin-top:2px;direction:rtl;}
+  .item .leader{flex:1;border-bottom:2px dotted rgba(246,236,218,0.22);transform:translateY(-4px);min-width:16px;}
+  .item .price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:14px;white-space:nowrap;}
+  .item .price small{color:var(--cream-dim);font-weight:500;font-size:10px;}
+  .item .price .mug{color:var(--ember);margin-left:4px;}
+  .price-note{font-size:10px;color:var(--cream-dim);margin:-8px 0 14px;text-align:right;}
+  .item.picked{background:linear-gradient(90deg, rgba(242,177,52,0.18), rgba(242,177,52,0.04));box-shadow:inset 0 0 0 1.5px rgba(242,177,52,0.55);}
+  .item.picked .name::before{content:"✓  ";color:var(--gold);font-weight:700;}
+  .item.soldout{opacity:.42;cursor:not-allowed;}
+  .item.soldout .price{display:none;}
+  .soldout-badge{font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ember);background:rgba(213,52,43,0.12);border:1px solid rgba(213,52,43,0.4);padding:3px 8px;border-radius:999px;white-space:nowrap;}
+
+  .order-bar{position:fixed;left:0;right:0;bottom:64px;z-index:59;display:flex;justify-content:center;padding:0 16px;transform:translateY(120%);opacity:0;transition:transform .3s ease, opacity .3s ease;}
+  .order-bar.show{transform:translateY(0);opacity:1;}
+  .order-inner{max-width:560px;width:100%;background:var(--char2);border:1px solid var(--gold);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
+  .order-inner .ot-count{background:var(--gold);color:var(--ink);font-weight:700;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .order-inner .ot-text{flex:1;font-size:12.5px;color:var(--cream);}
+  .order-inner .ot-total{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:13.5px;}
+  .order-inner .ot-clear{background:transparent;border:1px solid var(--line);color:var(--cream-dim);font-size:11px;padding:6px 10px;border-radius:8px;cursor:pointer;}
+
+  .footer{padding:28px 20px 10px;border-top:1px solid var(--line);margin-top:10px;position:relative;}
+  .footer h3{font-family:'Fredoka',sans-serif;font-size:14px;color:var(--gold);letter-spacing:.5px;margin:0 0 12px;}
+  .branch{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;}
+  .branch:last-child{border-bottom:none;}
+  .branch .n{color:var(--cream-dim);font-weight:600;flex:0 0 auto;}
+  .branch .a{text-align:right;color:var(--cream);}
+  .social-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  .social-row a{flex:1;min-width:100px;text-align:center;background:var(--char);border:1px solid var(--line);padding:10px 8px;border-radius:12px;font-size:11.5px;font-weight:600;text-decoration:none;color:var(--cream);}
+  .footer .handle{font-size:11px;color:var(--cream-dim);margin-top:10px;text-align:center;}
+  .footer .credit{font-size:10px;color:var(--cream-dim);opacity:.6;text-align:center;margin-top:20px;}
+
+  .cta-bar{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;justify-content:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(0deg, rgba(22,16,9,0.98), rgba(22,16,9,0.85));border-top:1px solid var(--line);}
+  .cta-inner{max-width:560px;width:100%;display:flex;gap:10px;}
+  .cta-inner a{flex:1;text-align:center;padding:12px 10px;border-radius:14px;font-weight:700;font-size:13px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .cta-call{background:var(--ember);color:#fff;box-shadow:0 6px 16px rgba(213,52,43,0.35);}
+  .cta-wa{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.3);}
+
+  .loading{padding:40px 20px;text-align:center;color:var(--cream-dim);font-size:13px;}
+  .error{padding:40px 20px;text-align:center;color:var(--ember);font-size:13px;}
+
+  @media (min-width:560px){.hero{padding:44px 30px 32px;}.brand{font-size:36px;}}
+</style>
+</head>
+<body>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<div class="wrap">
+  <div class="topbar">
+    <img src="/logo.jpg" alt="Al-Rizwan logo">
+    <div class="tb-text">
+      <div class="tb-name">Al-Rizwan Paratha Experts</div>
+      <div class="tb-sub">Har Paratha, Behtareen Swaad</div>
+    </div>
+    <a class="tb-call" href="tel:03004421193">📞 Call</a>
+  </div>
+
+  <div class="hero">
+    <div class="badge-24"><span class="dot"></span> OPEN 24 HOURS · PURE TASTE, PURE QUALITY</div>
+    <div class="logo-frame">
+      <img src="/logo.jpg" alt="Al-Rizwan Paratha Experts">
+      <svg class="steam" viewBox="0 0 36 34">
+        <path class="s1" d="M10 30 C 6 24, 14 20, 10 14" />
+        <path class="s2" d="M18 30 C 14 24, 22 20, 18 14" />
+        <path class="s3" d="M26 30 C 22 24, 30 20, 26 14" />
+      </svg>
+    </div>
+    <div class="brand">AL-RIZWAN<br><span>PARATHA EXPERTS</span></div>
+    <div class="tagline">Turkish Shawarma &amp; Fatayer · Since the tawa never went cold</div>
+    <div class="hero-sub">
+      <span>🔥 4 Branches in Lahore</span>
+      <span>🥙 Desi + Turkish</span>
+    </div>
+    <div class="scroll-cue">
+      Tap a category
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1L8 8L15 1" stroke="#f2b134" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+
+  <div class="cat-section">
+    <div class="cat-title">Pick a <b>category</b> — the menu below dissolves to match</div>
+    <div class="carousel" id="carousel"></div>
+  </div>
+
+  <div class="menu-panel" id="menuPanel"><div class="loading">Loading today's menu…</div></div>
+
+  <div class="footer">
+    <h3>OUR BRANCHES</h3>
+    <div class="branch"><span class="n">Branch 1</span><span class="a">Zaildar Road, Ichra</span></div>
+    <div class="branch"><span class="n">Branch 2</span><span class="a">Mor Saman Abad</span></div>
+    <div class="branch"><span class="n">Branch 3</span><span class="a">Pakki Thati Road, Lahore</span></div>
+    <div class="branch"><span class="n">Branch 4</span><span class="a">Ganga Ram, Near Gate No.4, Queen Road</span></div>
+
+    <h3 style="margin-top:22px;">FOLLOW &amp; ORDER</h3>
+    <div class="social-row">
+      <a href="tel:03004421193">📞 0300-4421193</a>
+      <a href="https://instagram.com/al_rizwan_paratha_experts" target="_blank" rel="noopener">📷 Instagram</a>
+      <a href="https://www.tiktok.com/@al_rizwan_paratha_experts" target="_blank" rel="noopener">🎵 TikTok</a>
+    </div>
+    <div class="handle">@al_rizwan_paratha_experts on all platforms</div>
+    <div class="credit">Scan · Tap · Taste — digital menu for Al-Rizwan Paratha Experts</div>
+  </div>
+</div>
+
+<div class="order-bar" id="orderBar">
+  <div class="order-inner">
+    <div class="ot-count" id="otCount">0</div>
+    <div class="ot-text">items selected</div>
+    <div class="ot-total" id="otTotal">Rs.0</div>
+    <button class="ot-clear" id="otClear">Clear</button>
+  </div>
+</div>
+
+<div class="cta-bar">
+  <div class="cta-inner">
+    <a class="cta-call" href="tel:03004421193">📞 Call to Order</a>
+    <a class="cta-wa" href="https://wa.me/923004421193" target="_blank" rel="noopener">💬 WhatsApp</a>
+  </div>
+</div>
+
+<script>
+const bgLayer = document.getElementById('bgLayer');
+const PARATHA_SVG = `<svg width="46" height="46" viewBox="0 0 46 46" fill="none"><circle cx="23" cy="23" r="19" fill="#f2b134"/><circle cx="23" cy="23" r="19" stroke="#c98a1f" stroke-width="2"/><path d="M23 6a17 17 0 0 1 0 34" stroke="#c98a1f" stroke-width="1.4" fill="none"/><path d="M8 15a17 17 0 0 1 21-6" stroke="#c98a1f" stroke-width="1.4" fill="none"/></svg>`;
+const CHILI_SVG = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M9 6c2 3 1 6-1 8" stroke="#3fa896" stroke-width="2.4" stroke-linecap="round"/><path d="M8 12c8-3 20 2 22 13 1.5 8-5 13-11 11C11 34 4 25 6 18c1-4 2-5 2-6z" fill="#d5342b"/></svg>`;
+const pieces = [
+  {svg:PARATHA_SVG, top:'4%',  left:'6%',  size:60, anim:'driftA', dur:'14s'},
+  {svg:CHILI_SVG,   top:'14%', left:'80%', size:44, anim:'driftB', dur:'11s'},
+  {svg:PARATHA_SVG, top:'32%', left:'85%', size:40, anim:'driftC', dur:'16s'},
+  {svg:CHILI_SVG,   top:'46%', left:'4%',  size:36, anim:'driftA', dur:'13s'},
+  {svg:PARATHA_SVG, top:'62%', left:'88%', size:52, anim:'driftB', dur:'15s'},
+  {svg:CHILI_SVG,   top:'72%', left:'10%', size:40, anim:'driftC', dur:'12s'},
+  {svg:PARATHA_SVG, top:'86%', left:'70%', size:34, anim:'driftA', dur:'17s'},
+  {svg:CHILI_SVG,   top:'92%', left:'30%', size:30, anim:'driftB', dur:'10s'},
+];
+pieces.forEach((p,i)=>{
+  const el = document.createElement('div');
+  el.className = 'bg-piece';
+  el.style.top = p.top; el.style.left = p.left;
+  el.style.width = p.size+'px'; el.style.height = p.size+'px';
+  el.style.animationName = p.anim; el.style.animationDuration = p.dur;
+  el.style.animationDelay = (i*0.6)+'s';
+  el.innerHTML = p.svg;
+  bgLayer.appendChild(el);
+});
+
+const carousel = document.getElementById('carousel');
+const panel = document.getElementById('menuPanel');
+const picked = new Set();
+let DATA = [];
+let currentCatId = null;
+
+function priceHTML(item){
+  if(item.price2){
+    return `<span class="price">Rs.${item.price}<small> gl</small><span class="mug">/ ${item.price2}<small> mug</small></span></span>`;
+  }
+  return `<span class="price">Rs.${item.price}</span>`;
+}
+
+function renderCarousel(){
+  carousel.innerHTML = '';
+  DATA.forEach((cat, i)=>{
+    const btn = document.createElement('div');
+    btn.className = 'cat-card' + (cat.id===currentCatId ? ' active' : '');
+    btn.dataset.id = cat.id;
+    btn.innerHTML = `<div class="ic">${cat.icon}</div><div class="lbl">${cat.label}</div>`;
+    btn.addEventListener('click', ()=> selectCategory(cat.id));
+    carousel.appendChild(btn);
+  });
+}
+
+function renderCategory(cat){
+  currentCatId = cat.id;
+  let html = `<div class="cat-header"><div class="ic-big">${cat.icon}</div><div><h2>${cat.title}</h2><p>${cat.description}</p></div></div>`;
+  let hasMug = false;
+  cat.groups.forEach((g, gi)=>{
+    html += `<div class="group"><div class="group-title">${g.name}</div>`;
+    g.items.forEach((item)=>{
+      if(item.price2) hasMug = true;
+      const key = String(item.id);
+      const isPicked = picked.has(key);
+      const soldout = !item.available;
+      html += `
+        <div class="item ${isPicked?'picked':''} ${soldout?'soldout':''}" data-key="${key}" data-price="${item.price}">
+          <div><span class="name">${item.name}</span><span class="urdu">${item.urdu}</span></div>
+          <div class="leader"></div>
+          ${soldout ? `<span class="soldout-badge">Coming back soon</span>` : priceHTML(item)}
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  if(hasMug) html += `<div class="price-note">gl = Glass · mug = Mug</div>`;
+  panel.innerHTML = html;
+  panel.classList.remove('dissolve-out');
+  void panel.offsetWidth;
+  panel.classList.add('dissolve');
+
+  panel.querySelectorAll('.item:not(.soldout)').forEach(row=>{
+    row.addEventListener('click', ()=> togglePick(row));
+  });
+  renderCarousel();
+}
+
+function togglePick(row){
+  const key = row.dataset.key;
+  if(picked.has(key)){ picked.delete(key); row.classList.remove('picked'); }
+  else { picked.add(key); row.classList.add('picked'); }
+  updateOrderBar();
+}
+
+function findItemById(id){
+  for(const cat of DATA) for(const g of cat.groups) for(const it of g.items) if(String(it.id)===id) return it;
+  return null;
+}
+
+function updateOrderBar(){
+  const bar = document.getElementById('orderBar');
+  let total = 0;
+  picked.forEach(key=>{ const it = findItemById(key); if(it) total += it.price; });
+  document.getElementById('otCount').textContent = picked.size;
+  document.getElementById('otTotal').textContent = 'Rs.' + total;
+  bar.classList.toggle('show', picked.size > 0);
+}
+document.getElementById('otClear').addEventListener('click', ()=>{
+  picked.clear();
+  document.querySelectorAll('.item.picked').forEach(el=>el.classList.remove('picked'));
+  updateOrderBar();
+});
+
+function selectCategory(id){
+  const cat = DATA.find(c=>c.id===id);
+  panel.classList.remove('dissolve');
+  panel.classList.add('dissolve-out');
+  setTimeout(()=> renderCategory(cat), 180);
+  requestAnimationFrame(()=>{
+    const activeCard = document.querySelector(`.cat-card[data-id="${id}"]`);
+    if(activeCard) activeCard.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  });
+}
+
+async function loadMenu(){
+  try{
+    const res = await fetch('/api/menu');
+    if(!res.ok) throw new Error('bad response');
+    DATA = await res.json();
+    if(!DATA.length){ panel.innerHTML = '<div class="error">Menu is empty — ask staff to check the admin panel.</div>'; return; }
+    renderCategory(DATA[0]);
+  }catch(err){
+    panel.innerHTML = '<div class="error">Couldn\\'t load the menu. Pull to refresh, or check your connection.</div>';
+  }
+}
+loadMenu();
+</script>
+</body>
+</html>
