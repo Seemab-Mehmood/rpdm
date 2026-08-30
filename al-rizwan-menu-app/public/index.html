@@ -339,7 +339,7 @@ async function loadMenu(){
     if(!DATA.length){ panel.innerHTML = '<div class="error">Menu is empty — ask staff to check the admin panel.</div>'; return; }
     renderCategory(DATA[0]);
   }catch(err){
-    panel.innerHTML = '<div class="error">Couldn\\'t load the menu. Pull to refresh, or check your connection.</div>';
+    panel.innerHTML = '<div class="error">Could not load the menu. Pull to refresh, or check your connection.</div>';
   }
 }
 loadMenu();
