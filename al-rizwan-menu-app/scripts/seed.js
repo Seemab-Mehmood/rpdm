@@ -26,6 +26,8 @@ const CATEGORIES = [
         ['Malai Chocolate Paratha', 'ملائی چاکلیٹ پراٹھا', 320],
         ['Chicken Chapli Kabab', 'چکن چپلی کباب', 200],
         ['Beef Chapli Kabab', 'بیف چپلی کباب', 200],
+        ['Mooli Wala Paratha', 'مولی والا پراٹھا', 200],
+        ['Boil Egg', 'ابلا انڈا', 60],
       ]},
     ]
   },
@@ -49,6 +51,8 @@ const CATEGORIES = [
         ['Meetha Dahi', 'میٹھا دہی', 150],
         ['Meetha Bread Pcs', 'میٹھا بریڈ پیس', 80],
         ['National Achar Sachet', 'نیشنل اچار ساشے', 20],
+        ['Kashmiri Green Tea', 'کشمیری گرین چائے', 150],
+        ['Afghani Qahwa', 'افغانی قہوہ', 100],
       ]},
     ]
   },
@@ -56,19 +60,23 @@ const CATEGORIES = [
     id: 'shawarma', icon: '🌯', label: 'Shawarma', sort_order: 3,
     title: 'Turkish Shawarma', description: 'Straight off the rotating spit.',
     groups: [
-      { name: 'Shawarma  ·  +Rs.80 cheese', items: [
-        ['Sarookh Shawarma', 'شاورما صاروخ', 550],
-        ['Fatayer Shawarma Medium', 'شاورما فطیر', 380],
+      { name: 'Turkish Shawarma', items: [
+        ['Sarookh Shawarma', 'شاورما صاروخ', 600],
+        ['Fateer Shawarma', 'شاورما فطیر', 600],
+        ['Shawarma with Cheese Medium', 'شاورما بالجبن وسط', 600],
+        ['Shawarma with Cheese Large', 'شاورما بالجبن کبیر', 700],
+        ['Samoon Shawarma (Pocket)', 'شاورما الصمون', 500],
+        ['Zinger Shawarma', 'زنجر شاورما', 450],
       ]},
       { name: 'Plater Shawarma  ·  Small / Med / Large', items: [
-        ['Plater Shawarma — Small', 'صحن عربی صغیر', 1080],
-        ['Plater Shawarma — Medium', 'صحن عربی وسط', 1650],
-        ['Plater Shawarma — Large', 'صحن عربی کبیر', 2120],
+        ['Plater Shawarma — Small', 'صحن عربی صغیر', 1150],
+        ['Plater Shawarma — Medium', 'صحن عربی وسط', 1700],
+        ['Plater Shawarma — Large', 'صحن عربی کبیر', 2200],
       ]},
       { name: 'Mutabbaq', items: [
-        ['Mutton Mutabbaq', 'مطبق لحم', 470],
-        ['Mutton Mutabbaq Cheese', 'مطبق لحم جبن', 520],
-        ['Chicken Mutabbaq Cheese', 'مطبق دجاج جبن', 550],
+        ['Mutton Mutabbaq', 'مطبق لحم', 900],
+        ['Mutton Mutabbaq Cheese', 'مطبق لحم جبن', 950],
+        ['Chicken Mutabbaq Cheese', 'مطبق دجاج جبن', 700],
       ]},
     ]
   },
@@ -91,11 +99,11 @@ const CATEGORIES = [
         ['Aish ul Buibul', 'عيش البلبل', 930],
         ['Lubana Zaatar', 'لبنه زعتر', 1000],
         ['Juban Zaatar', 'جبن زعتر', 1000],
-        ['Fatayer Chicken Egg', 'فطایر دجاج بیض', 650],
-        ['Fatayer Mutton Egg', 'فطایر لحم بیض', 700],
-        ['Fatayer Shinga La La', 'فطایر شنقا لالا', 650],
-        ['Fatayer Turkey Special', 'فطایر استنبول سبیشل', 1250],
-        ['Family Fatayer', 'فطایر عائلة', 2400],
+        ['Fatayer Chicken Egg', 'فطایر دجاج بیض', 850],
+        ['Fatayer Mutton Egg', 'فطایر لحم بیض', 900],
+        ['Fatayer Shinga La La', 'فطایر شنقا لالا', 900],
+        ['Fatayer Istanbul Special', 'فطایر استنبول سبیشل', 1350],
+        ['Family Fatayer', 'فطایر عائلة', 2500],
       ]},
     ]
   },
@@ -112,6 +120,10 @@ const CATEGORIES = [
         ['Falafil Plate — Medium', 'صحن فلافل وسط', 1170],
         ['Falafil Plate — Large', 'صحن فلافل کبیر', 1550],
       ]},
+      { name: 'Crispy', items: [
+        ['Nuggets 5 Pcs', 'ناجتس 5 حبات', 350],
+        ['Crispy Hot Wings 5 Pcs', 'ونجز حاره مقرمشة 5 حبات', 400],
+      ]},
     ]
   },
   {
@@ -119,12 +131,17 @@ const CATEGORIES = [
     title: 'Sides, Dips & Sweets', description: 'The little extras that finish the plate.',
     groups: [
       { name: 'Kings Sweet Food', items: [
+        ['Ash Bulbul', 'عش البلبل', 870],
         ['Masoob King', 'معصوب ملکی', 870],
         ['Masoob Bilgishta', 'معصوب با لقشطه', 650],
       ]},
       { name: 'Sides', items: [
         ['Humus', 'حمص', 620],
-        ['Fries', 'سحن بطاطس', 370],
+        ['Plain Fries', 'سحن بطاطس', 370],
+        ['Potato Wedges', 'بطاطس ودجز', 370],
+        ['Potato Bites', 'بطاطس بايتس', 650],
+        ['Cheese Croquettes', 'كروكيت الجبن', 980],
+        ['Hash Brown', 'هاش براون', 500],
         ['Kanafa — Turkish Naan Large', 'کبیر ترکی خبز', 980],
       ]},
       { name: 'Dip Sauces', items: [
@@ -137,45 +154,68 @@ const CATEGORIES = [
   },
   {
     id: 'shakes', icon: '🥤', label: 'Milkshakes', sort_order: 7,
-    title: 'Milk Shakes', description: 'Glass or Mug — go big or go classic.',
+    title: 'Milk Shakes', description: 'Thick, cold, and made fresh — Glass size.',
     groups: [
-      { name: 'Milk Shakes  ·  Glass / Mug', items: [
-        ['Peach Shake', 'آڑو شیک', 250, 350],
-        ['Mango Shake', 'آم شیک', 250, 350],
-        ['Banana Shake', 'کیلا شیک', 250, 350],
-        ['Strawberry Shake', 'سٹرابیری شیک', 250, 350],
-        ['Apple Shake', 'سیب شیک', 250, 350],
-        ['Oreo Chocolate Shake', 'اوریو چاکلیٹ شیک', 250, 350],
-        ['Khoya Khajoor Shake', 'کھویا کھجور شیک', 270, 370],
-        ['Pine Apple Shake', 'پائن ایپل شیک', 300, 400],
-        ['Banana Khajoor Shake', 'کیلا کھجور شیک', 300, 400],
-        ['Special Fig Shake', 'سپیشل انجیر شیک', 350, 450],
-        ['Special Cheekoo Shake', 'سپیشل چیکو شیک', 350, 450],
-        ['Special Papita Shake', 'سپیشل پاپیتا شیک', 350, 450],
-        ['Special Mix Dry Fruit Shake', 'سپیشل مکس ڈرائی فروٹ شیک', 550, 650],
+      { name: 'Milk Shakes  ·  Glass', items: [
+        ['Peach Shake', 'آڑو شیک', 270],
+        ['Mango Shake', 'آم شیک', 300],
+        ['Banana Shake', 'کیلا شیک', 270],
+        ['Khoya Khajoor Shake', 'کھویا کھجور شیک', 320],
+        ['Banana Khajoor Shake', 'کیلا کھجور شیک', 300],
+        ['Strawberry Shake', 'سٹرابیری شیک', 320],
+        ['Special Fig Shake', 'سپیشل انجیر شیک', 370],
+        ['Pine Apple Shake', 'پائن ایپل شیک', 320],
+        ['Apple Shake', 'سیب شیک', 270],
+        ['Oreo Chocolate Shake', 'اوریو چاکلیٹ شیک', 300],
+        ['Special Cheekoo Shake', 'سپیشل چیکو شیک', 350],
+        ['Special Papita Shake', 'سپیشل پاپیتا شیک', 350],
+        ['Special Mix Dry Fruit Shake', 'سپیشل مکس ڈرائی فروٹ شیک', 750],
       ]},
     ]
   },
   {
     id: 'juices', icon: '🧃', label: 'Juices', sort_order: 8,
-    title: 'Fresh Juices', description: 'Squeezed fresh, Glass or Mug.',
+    title: 'Fresh Juices', description: 'Squeezed fresh, Glass size.',
     groups: [
-      { name: 'Fresh Juices  ·  Glass / Mug', items: [
-        ['Fresh Lime Juice', 'فریش لائم جوس', 250, 350],
-        ['Plum / Aloo Bukhara Juice', 'آلوبخارہ جوس', 250, 350],
-        ['Peach Juice', 'آڑو جوس', 250, 350],
-        ['Falsa Juice', 'فالسہ جوس', 250, 350],
-        ['Strawberry Juice', 'سٹرابیری جوس', 250, 350],
-        ['Mint Margarita Juice', 'منٹ مارگریٹا جوس', 300, 400],
-        ['Apple Juice', 'سیب جوس', 350, 450],
-        ['Mango Juice', 'آم جوس', 350, 450],
-        ['Pine Apple Juice', 'پائن ایپل جوس', 450, 550],
+      { name: 'Fresh Juices  ·  Glass', items: [
+        ['Pine Apple Juice', 'پائن ایپل جوس', 400],
+        ['Grape Fruit Juice', 'گریپ فروٹ جوس', 300],
+        ['Musami Juice', 'موسمی جوس', 370],
+        ['Apple Juice', 'سیب جوس', 320],
+        ['Mint Margarita Juice', 'منٹ مارگریٹا جوس', 320],
+        ['Strawberry Juice', 'سٹرابیری جوس', 300],
+        ['Red Anar Juice', 'ریڈ انار جوس', 400],
+        ['White Anar Juice', 'وائٹ انار جوس', 650],
       ]},
       { name: 'Chai & Coffee', items: [
         ['Chai', 'چائے', 70],
         ['Doodh Patti', 'دودھ پتی', 80],
         ['Gurr wali Chai', 'گڑ والی چائے', 80],
         ['Qehwa', 'قہوہ', 60],
+      ]},
+    ]
+  },
+  {
+    id: 'minifatayer', icon: '🥐', label: 'Mini Fatayer', sort_order: 9,
+    title: 'Arabic Mini Fatayer', description: 'Break Fast Meal — small bites, big flavour.',
+    groups: [
+      { name: 'Arabic Mini Fatayer (Break Fast Meal)', items: [
+        ['Crosson Sweet Dish', 'کروسان سویٹ ڈش', 100],
+        ['Chicken Mini Fatayer', 'فطایر دجاج صغیر', 100],
+        ['Mutton Mini Fatayer', 'فطایر لحم صغیر', 100],
+        ['Cheese Egg Mini Fatayer', 'فطایر جبن بیض صغیر', 100],
+        ['Mini Ash Bulbul', 'مینی عش البلبل', 100],
+        ['Club Sandwich', 'کلب سینڈوچ', 550],
+      ]},
+    ]
+  },
+  {
+    id: 'rice', icon: '🍚', label: 'Rice', sort_order: 10,
+    title: 'Rice', description: 'Al-Rizwan special rice plates.',
+    groups: [
+      { name: 'Rice Plates', items: [
+        ['Al Rizwan Special Dal Chawal Plate', 'دال چاول پلیٹ سپیشل', 250],
+        ['Al Rizwan Special Chicken Palak Chawal Plate', 'چکن پالک چاول پلیٹ سپیشل', 500],
       ]},
     ]
   },
