@@ -28,6 +28,15 @@ app.get(`/${ADMIN_PATH}`, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin.html'));
 });
 
+// Safety net: if any route throws an error that wasn't caught locally,
+// always send back a JSON error instead of letting the request hang with
+// no response (which is what Express 4 does by default for async errors).
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (res.headersSent) return next(err);
+  res.status(500).json({ error: 'Something went wrong on the server.' });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Al-Rizwan menu app running on port ${PORT}`);
