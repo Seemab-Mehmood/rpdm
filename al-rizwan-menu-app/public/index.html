@@ -137,6 +137,39 @@
   .loading{padding:40px 20px;text-align:center;color:var(--cream-dim);font-size:13px;}
   .error{padding:40px 20px;text-align:center;color:var(--ember);font-size:13px;}
 
+  /* ---------------- Dish detail modal ---------------- */
+  .dish-overlay{
+    position:fixed;inset:0;background:rgba(10,7,4,0.75);backdrop-filter:blur(4px);
+    z-index:200;display:none;align-items:flex-end;justify-content:center;
+  }
+  .dish-overlay.open{display:flex;}
+  .dish-sheet{
+    width:100%;max-width:560px;max-height:88vh;overflow-y:auto;position:relative;
+    background:var(--char);border:1px solid var(--line);border-radius:22px 22px 0 0;
+    animation:dishSlideUp .28s ease both;
+  }
+  @keyframes dishSlideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .dish-gallery{position:relative;width:100%;aspect-ratio:4/3;background:var(--char2);overflow:hidden;border-radius:22px 22px 0 0;}
+  .dish-gallery img{width:100%;height:100%;object-fit:cover;display:block;}
+  .dish-gallery.no-photo{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:radial-gradient(circle at 50% 40%, rgba(242,177,52,0.10), transparent 70%), var(--char2);}
+  .dish-gallery.no-photo img{width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);opacity:.92;filter:grayscale(1) contrast(1.05);}
+  .dish-gallery.no-photo .no-photo-caption{font-size:11.5px;color:var(--cream-dim);}
+  .dish-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px;}
+  .dish-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;border:none;padding:0;}
+  .dish-dot.active{background:var(--gold);}
+  .dish-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(20,14,8,0.55);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;}
+  .dish-nav.prev{left:10px;}
+  .dish-nav.next{right:10px;}
+  .dish-close{position:absolute;top:12px;right:12px;background:rgba(20,14,8,0.6);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;z-index:2;line-height:1;}
+  .dish-body{padding:20px;}
+  .dish-body h2{font-family:'Fredoka',sans-serif;margin:0 0 2px;font-size:19px;color:var(--cream);}
+  .dish-body .dish-urdu{font-size:13px;color:var(--cream-dim);direction:rtl;margin-bottom:8px;display:block;}
+  .dish-body .dish-price{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:700;font-size:16px;margin-bottom:14px;}
+  .dish-body .dish-desc{font-size:13px;line-height:1.65;color:var(--cream-dim);margin-bottom:20px;white-space:pre-wrap;}
+  .dish-pick-btn{width:100%;padding:13px;border-radius:12px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--gold);color:var(--ink);}
+  .dish-pick-btn.active{background:var(--char2);color:var(--gold);border:1.5px solid var(--gold);}
+  .dish-loading{padding:70px 20px;text-align:center;color:var(--cream-dim);font-size:13px;}
+
   .desktop-only-hint{display:none;}
 
   @media (min-width:560px){.hero{padding:44px 30px 32px;}.brand{font-size:36px;}}
@@ -282,6 +315,10 @@
   </div>
 </div>
 
+<div class="dish-overlay" id="dishOverlay">
+  <div class="dish-sheet" id="dishSheet"></div>
+</div>
+
 <div class="order-bar" id="orderBar">
   <div class="order-inner">
     <div class="ot-count" id="otCount">0</div>
@@ -375,7 +412,7 @@ function renderCategory(cat){
   panel.classList.add('dissolve');
 
   panel.querySelectorAll('.item:not(.soldout)').forEach(row=>{
-    row.addEventListener('click', ()=> togglePick(row));
+    row.addEventListener('click', ()=> openDishModal(row.dataset.key));
   });
   renderCarousel();
 }
@@ -385,6 +422,102 @@ function togglePick(row){
   if(picked.has(key)){ picked.delete(key); row.classList.remove('picked'); }
   else { picked.add(key); row.classList.add('picked'); }
   updateOrderBar();
+}
+
+/* ---------------- Dish detail modal ---------------- */
+let currentDishSlide = 0;
+
+async function openDishModal(key){
+  const item = findItemById(key);
+  if(!item) return;
+
+  const overlay = document.getElementById('dishOverlay');
+  const sheet = document.getElementById('dishSheet');
+  overlay.classList.add('open');
+  sheet.innerHTML = '<div class="dish-loading">Loading…</div>';
+
+  try{
+    const res = await fetch(`/api/items/${key}`);
+    const detail = res.ok ? await res.json() : {};
+    renderDishSheet(item, detail);
+  }catch(err){
+    renderDishSheet(item, {});
+  }
+}
+
+function renderDishSheet(item, detail){
+  currentDishSlide = 0;
+  const images = (detail.images || []).filter(Boolean);
+  const description = (detail.description || '').trim();
+  const key = String(item.id);
+  const isPicked = picked.has(key);
+
+  const galleryHTML = images.length
+    ? `<div class="dish-gallery" id="dishGallery">
+        ${images.map((src,i)=>`<img src="${src}" style="display:${i===0?'block':'none'}" data-slide="${i}" alt="${item.name}">`).join('')}
+        ${images.length>1 ? `
+          <button class="dish-nav prev" id="dishPrev">‹</button>
+          <button class="dish-nav next" id="dishNext">›</button>
+          <div class="dish-dots">${images.map((_,i)=>`<button class="dish-dot ${i===0?'active':''}" data-dot="${i}"></button>`).join('')}</div>
+        ` : ''}
+      </div>`
+    : `<div class="dish-gallery no-photo">
+        <img src="/logo.jpg" alt="Al-Rizwan Paratha Experts">
+        <div class="no-photo-caption">No photos added yet</div>
+      </div>`;
+
+  document.getElementById('dishSheet').innerHTML = `
+    <button class="dish-close" id="dishClose">✕</button>
+    ${galleryHTML}
+    <div class="dish-body">
+      <h2>${item.name}</h2>
+      <span class="dish-urdu">${item.urdu}</span>
+      <div class="dish-price">${item.price2 ? `Rs.${item.price} <small>gl</small> / Rs.${item.price2} <small>mug</small>` : `Rs.${item.price}`}</div>
+      <div class="dish-desc">${description ? escapeHtml(description) : 'No description added yet.'}</div>
+      <button class="dish-pick-btn ${isPicked?'active':''}" id="dishPickBtn">${isPicked ? '✓ Added to your picks' : 'Add to my picks'}</button>
+    </div>`;
+
+  document.getElementById('dishClose').addEventListener('click', closeDishModal);
+  document.getElementById('dishPickBtn').addEventListener('click', ()=>{
+    const row = document.querySelector(`.item[data-key="${key}"]`);
+    if(row){ togglePick(row); } else { if(picked.has(key)) picked.delete(key); else picked.add(key); updateOrderBar(); }
+    const btn = document.getElementById('dishPickBtn');
+    const nowPicked = picked.has(key);
+    btn.textContent = nowPicked ? '✓ Added to your picks' : 'Add to my picks';
+    btn.classList.toggle('active', nowPicked);
+  });
+
+  if(images.length > 1){
+    document.getElementById('dishPrev').addEventListener('click', ()=> shiftDishSlide(-1, images.length));
+    document.getElementById('dishNext').addEventListener('click', ()=> shiftDishSlide(1, images.length));
+    document.querySelectorAll('.dish-dot').forEach(dot=>{
+      dot.addEventListener('click', ()=> goToDishSlide(Number(dot.dataset.dot)));
+    });
+  }
+}
+
+function shiftDishSlide(dir, total){ goToDishSlide((currentDishSlide + dir + total) % total); }
+function goToDishSlide(i){
+  currentDishSlide = i;
+  document.querySelectorAll('#dishGallery img').forEach(img=>{
+    img.style.display = Number(img.dataset.slide) === i ? 'block' : 'none';
+  });
+  document.querySelectorAll('.dish-dot').forEach(dot=>{
+    dot.classList.toggle('active', Number(dot.dataset.dot) === i);
+  });
+}
+
+function closeDishModal(){
+  document.getElementById('dishOverlay').classList.remove('open');
+}
+document.getElementById('dishOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'dishOverlay') closeDishModal();
+});
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 function findItemById(id){

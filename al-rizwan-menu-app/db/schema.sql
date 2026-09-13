@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS items (
   price         INT NOT NULL,
   price2        INT,               -- optional "mug" price, NULL if item has one size only
   available     BOOLEAN NOT NULL DEFAULT TRUE,
+  description   TEXT NOT NULL DEFAULT '',      -- up to ~200 words, shown in the dish detail popup
+  images        TEXT[] NOT NULL DEFAULT '{}',  -- up to 3 compressed photos, stored as data URIs
   sort_order    INT NOT NULL
 );
 

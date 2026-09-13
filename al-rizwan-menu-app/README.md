@@ -59,6 +59,17 @@ npm run seed
 
 This creates the tables and loads every category, item, and price from the menu boards you provided. Re-running it later will reset prices/availability back to these defaults — don't run it again after staff have made live edits unless you mean to reset.
 
+### If your database already existed before a feature update
+
+Two follow-up scripts exist for updating a **live** database safely, without wiping anything:
+
+- `npm run add-new-items` — adds any dishes/categories from later menu-board updates that aren't in the database yet, and applies a short list of known price corrections. Safe to run anytime.
+- `npm run add-media-columns` — adds the `description` and `images` columns needed for the dish-photo feature. Run this once if your database was seeded before that feature existed.
+
+## 4.5 Dish photos & descriptions
+
+Each item can have up to 3 photos and a short (~200 word) description, editable from the admin panel (tap the 📷 button next to any item). Photos are stored directly in the database as compressed images — no external image host needed — and are only downloaded by a customer's phone when they actually tap that dish, so the main menu stays fast to load even with photos on every item.
+
 ## 5. Point your QR code at the site
 
 - Customer menu: `https://your-app.onrender.com/`

@@ -7,7 +7,9 @@ const menuRoutes = require('./routes/menu');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
-app.use(express.json());
+// Default body-size limit (100kb) is too small once photos are involved —
+// compressed dish photos are sent as base64 JSON, so raise the ceiling.
+app.use(express.json({ limit: '15mb' }));
 app.use(cookieParser());
 
 // Customer-facing static files (menu page, css/js, images). This folder has

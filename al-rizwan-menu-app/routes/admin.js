@@ -115,11 +115,23 @@ router.post('/groups', requireAdmin, async (req, res) => {
   res.json({ ok: true, id: rows[0].id });
 });
 
-// POST /api/admin/items  { group_id, name, urdu, price, price2, available }
+// GET /api/admin/items/:id/media — description + photos for one item.
+// Kept separate from the main /items list so that list stays fast to load
+// even with 100+ items (photos are only fetched when an admin expands one).
+router.get('/items/:id/media', requireAdmin, async (req, res) => {
+  const { rows } = await pool.query('SELECT description, images FROM items WHERE id = $1', [req.params.id]);
+  if (!rows.length) return res.status(404).json({ error: 'Item not found.' });
+  res.json(rows[0]);
+});
+
+// POST /api/admin/items  { group_id, name, urdu, price, price2, available, description, images }
 router.post('/items', requireAdmin, async (req, res) => {
-  const { group_id, name, urdu, price, price2, available } = req.body || {};
+  const { group_id, name, urdu, price, price2, available, description, images } = req.body || {};
   if (!group_id || !name || price === undefined || price === '') {
     return res.status(400).json({ error: 'group_id, name, and price are required.' });
+  }
+  if (Array.isArray(images) && images.length > 3) {
+    return res.status(400).json({ error: 'A dish can have at most 3 photos.' });
   }
 
   const grp = await pool.query('SELECT name FROM groups WHERE id = $1', [group_id]);
@@ -127,9 +139,12 @@ router.post('/items', requireAdmin, async (req, res) => {
 
   const maxSort = await pool.query('SELECT COALESCE(MAX(sort_order), -1) AS m FROM items WHERE group_id = $1', [group_id]);
   const { rows } = await pool.query(
-    `INSERT INTO items (group_id, name, urdu, price, price2, available, sort_order)
-     VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id`,
-    [group_id, name, urdu || '', Number(price), price2 ? Number(price2) : null, available !== false, maxSort.rows[0].m + 1]
+    `INSERT INTO items (group_id, name, urdu, price, price2, available, description, images, sort_order)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id`,
+    [
+      group_id, name, urdu || '', Number(price), price2 ? Number(price2) : null, available !== false,
+      description || '', Array.isArray(images) ? images : [], maxSort.rows[0].m + 1,
+    ]
   );
   await addLog(`New item added: ${name} — Rs.${price}${price2 ? ' / Rs.'+price2+' (mug)' : ''}`);
   res.json({ ok: true, id: rows[0].id });
@@ -146,10 +161,13 @@ router.delete('/items/:id', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
-// PATCH /api/admin/items/:id  { price, price2, available }
+// PATCH /api/admin/items/:id  { price, price2, available, description, images }
 router.patch('/items/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
-  const { price, price2, available } = req.body || {};
+  const { price, price2, available, description, images } = req.body || {};
+  if (images !== undefined && (!Array.isArray(images) || images.length > 3)) {
+    return res.status(400).json({ error: 'A dish can have at most 3 photos.' });
+  }
 
   const { rows: before } = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
   if (!before.length) return res.status(404).json({ error: 'Item not found.' });
@@ -158,10 +176,12 @@ router.patch('/items/:id', requireAdmin, async (req, res) => {
   const newPrice = price !== undefined ? Number(price) : item.price;
   const newPrice2 = price2 !== undefined ? (price2 === null ? null : Number(price2)) : item.price2;
   const newAvailable = available !== undefined ? Boolean(available) : item.available;
+  const newDescription = description !== undefined ? description : item.description;
+  const newImages = images !== undefined ? images : item.images;
 
   await pool.query(
-    'UPDATE items SET price = $1, price2 = $2, available = $3 WHERE id = $4',
-    [newPrice, newPrice2, newAvailable, id]
+    'UPDATE items SET price = $1, price2 = $2, available = $3, description = $4, images = $5 WHERE id = $6',
+    [newPrice, newPrice2, newAvailable, newDescription, newImages, id]
   );
 
   const messages = [];
@@ -169,6 +189,10 @@ router.patch('/items/:id', requireAdmin, async (req, res) => {
   if (newPrice2 !== item.price2) messages.push(`${item.name} mug price changed to Rs.${newPrice2}`);
   if (newAvailable !== item.available) {
     messages.push(`${item.name} marked ${newAvailable ? 'back in stock' : 'sold out / coming back soon'}`);
+  }
+  if (description !== undefined && description !== item.description) messages.push(`${item.name} description updated`);
+  if (images !== undefined && JSON.stringify(images) !== JSON.stringify(item.images)) {
+    messages.push(`${item.name} photos updated (${images.length} photo${images.length === 1 ? '' : 's'})`);
   }
   for (const m of messages) await addLog(m);
 

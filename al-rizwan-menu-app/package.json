@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "seed": "node scripts/seed.js",
-    "add-new-items": "node scripts/add-new-items.js"
+    "add-new-items": "node scripts/add-new-items.js",
+    "add-media-columns": "node scripts/add-media-columns.js"
   },
   "dependencies": {
     "express": "^4.19.2",
@@ -16,6 +17,6 @@
     "dotenv": "^16.4.5"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "20.x"
   }
 }
