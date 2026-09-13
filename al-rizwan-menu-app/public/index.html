@@ -43,7 +43,13 @@
 
   .hero{position:relative;padding:34px 20px 26px;text-align:center;background:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 26px);border-bottom:1px solid var(--line);overflow:hidden;}
   .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(320px 200px at 50% 0%, rgba(242,177,52,0.16), transparent 70%);pointer-events:none;}
-  .badge-24{position:relative;display:inline-flex;align-items:center;gap:6px;background:var(--char2);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:1px;color:var(--gold);margin-bottom:16px;font-weight:600;}
+  .badge-24{position:relative;display:inline-flex;align-items:center;gap:6px;background:var(--char2);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:1px;color:var(--gold);margin-bottom:16px;font-weight:600;overflow:hidden;}
+  .badge-24::after{
+    content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation:shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmer{0%{left:-60%;}55%{left:130%;}100%{left:130%;}}
   .badge-24 .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 1.8s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
@@ -56,12 +62,16 @@
   .steam .s3{animation:rise 3s ease-in-out 1s infinite;}
   @keyframes rise{0%{transform:translateY(6px);opacity:0;}30%{opacity:.9;}100%{transform:translateY(-10px);opacity:0;}}
 
-  .brand{position:relative;font-family:'Fredoka',sans-serif;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.5px;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,0.5);}
+  .logo-frame{animation:heroPopIn .55s cubic-bezier(.34,1.56,.64,1) both;}
+  .brand{position:relative;font-family:'Fredoka',sans-serif;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.5px;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,0.5);animation:heroFadeUp .5s ease both .12s;}
+  @keyframes heroPopIn{from{opacity:0;transform:scale(.7) rotate(-8deg);}to{opacity:1;transform:scale(1) rotate(0deg);}}
+  @keyframes heroFadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){.logo-frame, .brand, .tagline, .hero-sub, .scroll-cue{animation:none;}}
   .brand span{color:var(--cream);}
-  .tagline{position:relative;font-size:13px;color:var(--cream-dim);letter-spacing:.5px;margin-top:6px;font-style:italic;}
-  .hero-sub{position:relative;margin-top:16px;font-size:12.5px;color:var(--cream-dim);display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+  .tagline{position:relative;font-size:13px;color:var(--cream-dim);letter-spacing:.5px;margin-top:6px;font-style:italic;animation:heroFadeUp .5s ease both .22s;}
+  .hero-sub{position:relative;margin-top:16px;font-size:12.5px;color:var(--cream-dim);display:flex;justify-content:center;gap:14px;flex-wrap:wrap;animation:heroFadeUp .5s ease both .32s;}
   .hero-sub span{display:flex;align-items:center;gap:5px;}
-  .scroll-cue{position:relative;margin-top:22px;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .scroll-cue{position:relative;margin-top:22px;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;animation:heroFadeUp .5s ease both .42s;}
   .scroll-cue svg{animation:bob 1.6s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
   .hero-cta-desktop{display:none;}
@@ -73,6 +83,15 @@
   .carousel::-webkit-scrollbar{display:none;}
   .cat-card{scroll-snap-align:start;flex:0 0 auto;width:92px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 10px;background:var(--char);border:1px solid var(--line);border-radius:18px;cursor:pointer;transition:transform .25s ease, border-color .25s ease, background .25s ease;}
   .cat-card .ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--char2);font-size:22px;border:1px solid var(--line);transition:background .25s ease, transform .25s ease, box-shadow .25s ease;}
+  .cat-card:active .ic{transform:scale(.88) rotate(-8deg);}
+  @media (hover:hover){
+    .cat-card:hover .ic{animation:wiggle .5s ease;}
+  }
+  @keyframes wiggle{
+    0%,100%{transform:rotate(0deg) scale(1);}
+    25%{transform:rotate(-10deg) scale(1.05);}
+    75%{transform:rotate(10deg) scale(1.05);}
+  }
   .cat-card .lbl{font-size:10.5px;text-align:center;line-height:1.25;color:var(--cream-dim);font-weight:600;}
   .cat-card.active{border-color:var(--gold);background:linear-gradient(180deg, rgba(242,177,52,0.14), rgba(242,177,52,0.03));transform:translateY(-3px);}
   .cat-card.active .ic{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.35);transform:scale(1.06);}
@@ -104,6 +123,12 @@
   .item .price .mug{color:var(--ember);margin-left:4px;}
   .price-note{font-size:10px;color:var(--cream-dim);margin:-8px 0 14px;text-align:right;}
   .item.picked{background:linear-gradient(90deg, rgba(242,177,52,0.18), rgba(242,177,52,0.04));box-shadow:inset 0 0 0 1.5px rgba(242,177,52,0.55);}
+  .item.just-picked{animation:itemPop .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes itemPop{
+    0%{transform:scale(1);}
+    35%{transform:scale(1.025);}
+    100%{transform:scale(1);}
+  }
   .item.picked .name::before{content:"✓  ";color:var(--gold);font-weight:700;}
   .item.soldout{opacity:.42;cursor:not-allowed;}
   .item.soldout .price{display:none;}
@@ -112,7 +137,13 @@
   .order-bar{position:fixed;left:0;right:0;bottom:64px;z-index:59;display:flex;justify-content:center;padding:0 16px;transform:translateY(120%);opacity:0;transition:transform .3s ease, opacity .3s ease;}
   .order-bar.show{transform:translateY(0);opacity:1;}
   .order-inner{max-width:560px;width:100%;background:var(--char2);border:1px solid var(--gold);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
-  .order-inner .ot-count{background:var(--gold);color:var(--ink);font-weight:700;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .order-inner .ot-count{background:var(--gold);color:var(--ink);font-weight:700;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:transform .15s ease;}
+  .order-inner .ot-count.bump{animation:countBump .35s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes countBump{
+    0%{transform:scale(1);}
+    40%{transform:scale(1.4) rotate(-8deg);}
+    100%{transform:scale(1) rotate(0deg);}
+  }
   .order-inner .ot-text{flex:1;font-size:12.5px;color:var(--cream);}
   .order-inner .ot-total{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:13.5px;}
   .order-inner .ot-clear{background:transparent;border:1px solid var(--line);color:var(--cream-dim);font-size:11px;padding:6px 10px;border-radius:8px;cursor:pointer;}
@@ -123,14 +154,39 @@
   .branch:last-child{border-bottom:none;}
   .branch .n{color:var(--cream-dim);font-weight:600;flex:0 0 auto;}
   .branch .a{text-align:right;color:var(--cream);}
-  .social-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
-  .social-row a{flex:1;min-width:100px;text-align:center;background:var(--char);border:1px solid var(--line);padding:10px 8px;border-radius:12px;font-size:11.5px;font-weight:600;text-decoration:none;color:var(--cream);}
+  .app-icon-grid{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap;justify-content:flex-start;}
+  .app-icon-tile{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    text-decoration:none;width:64px;
+    animation:tileFloat 4s ease-in-out infinite;
+  }
+  .app-icon-tile:nth-child(1){animation-delay:0s;}
+  .app-icon-tile:nth-child(2){animation-delay:.3s;}
+  .app-icon-tile:nth-child(3){animation-delay:.6s;}
+  .app-icon-tile:nth-child(4){animation-delay:.9s;}
+  .app-icon-tile:nth-child(5){animation-delay:1.2s;}
+  .app-icon-glyph{
+    width:52px;height:52px;border-radius:16px;background:var(--tile-bg);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition:transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+  }
+  .app-icon-glyph svg{width:26px;height:26px;}
+  .app-icon-tile:active .app-icon-glyph{transform:scale(.88) rotate(-4deg);}
+  .app-icon-label{font-size:10px;color:var(--cream-dim);font-weight:600;text-align:center;}
+  @media (hover:hover){
+    .app-icon-tile:hover .app-icon-glyph{transform:scale(1.12) rotate(-6deg);box-shadow:0 10px 22px rgba(0,0,0,0.45);}
+    .app-icon-tile:hover .app-icon-label{color:var(--gold);}
+  }
+  @keyframes tileFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+  @media (prefers-reduced-motion: reduce){.app-icon-tile{animation:none;}}
   .footer .handle{font-size:11px;color:var(--cream-dim);margin-top:10px;text-align:center;}
   .footer .credit{font-size:10px;color:var(--cream-dim);opacity:.6;text-align:center;margin-top:20px;}
 
   .cta-bar{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;justify-content:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(0deg, rgba(22,16,9,0.98), rgba(22,16,9,0.85));border-top:1px solid var(--line);}
   .cta-inner{max-width:560px;width:100%;display:flex;gap:10px;}
-  .cta-inner a{flex:1;text-align:center;padding:12px 10px;border-radius:14px;font-weight:700;font-size:13px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .cta-inner a{flex:1;text-align:center;padding:12px 10px;border-radius:14px;font-weight:700;font-size:13px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .12s ease;}
+  .cta-inner a:active{transform:scale(.95);}
   .cta-call{background:var(--ember);color:#fff;box-shadow:0 6px 16px rgba(213,52,43,0.35);}
   .cta-wa{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.3);}
 
@@ -230,8 +286,7 @@
     .item.picked:hover{box-shadow:inset 0 0 0 1.5px rgba(242,177,52,0.6);}
 
     .footer{padding:30px 40px 24px;}
-    .social-row a{transition:transform .15s ease, border-color .15s ease;}
-    .social-row a:hover{transform:translateY(-2px);border-color:var(--gold-deep);}
+    .app-icon-grid{gap:18px;}
   }
 
   /* ================= Wide laptop / large screens ================= */
@@ -282,7 +337,7 @@
         <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1L8 8L15 1" stroke="#f2b134" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
       <div class="hero-cta-desktop">
-        <a class="tb-call" href="tel:03004421193">📞 Call to Order</a>
+        <a class="tb-call" href="tel:03004421193">📞 Call to Home Delivery</a>
         <a class="tb-wa" href="https://wa.me/923004421193" target="_blank" rel="noopener">💬 WhatsApp</a>
       </div>
     </div>
@@ -305,10 +360,37 @@
     <div class="branch"><span class="n">Branch 4</span><span class="a">Ganga Ram, Near Gate No.4, Queen Road</span></div>
 
     <h3 style="margin-top:22px;">FOLLOW &amp; ORDER</h3>
-    <div class="social-row">
-      <a href="tel:03004421193">📞 0300-4421193</a>
-      <a href="https://instagram.com/al_rizwan_paratha_experts" target="_blank" rel="noopener">📷 Instagram</a>
-      <a href="https://www.tiktok.com/@al_rizwan_paratha_experts" target="_blank" rel="noopener">🎵 TikTok</a>
+    <div class="app-icon-grid">
+      <a class="app-icon-tile" href="tel:03004421193" style="--tile-bg: linear-gradient(135deg,#3fa896,#2c8272);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.2 1.1L6.6 10.8z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Call</span>
+      </a>
+      <a class="app-icon-tile" href="https://wa.me/923004421193" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#3fd67a,#25a559);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="white" opacity=".18"/><path d="M12 3.6a8.4 8.4 0 0 0-7.2 12.7l.2.4-.9 3.3 3.4-.9.4.2A8.4 8.4 0 1 0 12 3.6zm4.9 11.9c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .5.4.2.5.7 1.8.7 1.9.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.5 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.7.8c.2.1.3.2.4.3.1.2.1.7-.1 1.3z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">WhatsApp</span>
+      </a>
+      <a class="app-icon-tile" href="https://instagram.com/al_rizwan_paratha_experts" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Instagram</span>
+      </a>
+      <a class="app-icon-tile" href="https://www.tiktok.com/@al_rizwan_paratha_experts" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#1f1f24,#000);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 3v9.6a2.9 2.9 0 1 1-2.4-2.86" stroke="#69f4e8" stroke-width="1.7" stroke-linecap="round"/><path d="M14 3c.4 2.2 2 3.8 4.2 4.1" stroke="#ee1d52" stroke-width="1.7" stroke-linecap="round"/><path d="M13.5 3.5c.4 2.2 2 3.8 4.2 4.1" stroke="white" stroke-width="1" stroke-linecap="round" opacity=".7"/></svg>
+        </span>
+        <span class="app-icon-label">TikTok</span>
+      </a>
+      <a class="app-icon-tile" href="https://facebook.com" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#4267ff,#2d4ecb);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14.5 21v-7.2h2.4l.4-2.8h-2.8V9.2c0-.8.2-1.4 1.4-1.4h1.5V5.3C16.9 5.2 16 5.1 15 5.1c-2.2 0-3.7 1.3-3.7 3.8v2.1H8.9v2.8h2.4V21h3.2z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Facebook</span>
+      </a>
     </div>
     <div class="handle">@al_rizwan_paratha_experts on all platforms</div>
     <div class="credit">Scan · Tap · Taste — digital menu for Al-Rizwan Paratha Experts</div>
@@ -330,7 +412,7 @@
 
 <div class="cta-bar">
   <div class="cta-inner">
-    <a class="cta-call" href="tel:03004421193">📞 Call to Order</a>
+    <a class="cta-call" href="tel:03004421193">📞 Home Delivery</a>
     <a class="cta-wa" href="https://wa.me/923004421193" target="_blank" rel="noopener">💬 WhatsApp</a>
   </div>
 </div>
@@ -419,8 +501,16 @@ function renderCategory(cat){
 
 function togglePick(row){
   const key = row.dataset.key;
-  if(picked.has(key)){ picked.delete(key); row.classList.remove('picked'); }
-  else { picked.add(key); row.classList.add('picked'); }
+  if(picked.has(key)){
+    picked.delete(key);
+    row.classList.remove('picked');
+  }else{
+    picked.add(key);
+    row.classList.add('picked');
+    row.classList.remove('just-picked');
+    void row.offsetWidth;
+    row.classList.add('just-picked');
+  }
   updateOrderBar();
 }
 
@@ -527,9 +617,15 @@ function findItemById(id){
 
 function updateOrderBar(){
   const bar = document.getElementById('orderBar');
+  const countEl = document.getElementById('otCount');
   let total = 0;
   picked.forEach(key=>{ const it = findItemById(key); if(it) total += it.price; });
-  document.getElementById('otCount').textContent = picked.size;
+  if(countEl.textContent !== String(picked.size)){
+    countEl.classList.remove('bump');
+    void countEl.offsetWidth;
+    countEl.classList.add('bump');
+  }
+  countEl.textContent = picked.size;
   document.getElementById('otTotal').textContent = 'Rs.' + total;
   bar.classList.toggle('show', picked.size > 0);
 }
