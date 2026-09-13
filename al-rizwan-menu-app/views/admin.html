@@ -65,6 +65,7 @@
   }
   .photo-slot.empty:hover{border-color:var(--gold-deep,var(--gold));color:var(--gold);}
   .photo-slot.filled img{width:100%;height:100%;object-fit:cover;display:block;}
+  .photo-replace{display:block;width:100%;height:100%;cursor:pointer;}
   .photo-remove{
     position:absolute;top:3px;right:3px;background:rgba(20,14,8,0.85);color:var(--ember);
     border:none;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;line-height:1;
@@ -165,6 +166,11 @@
       <div class="mug-toggle"><input type="checkbox" id="hasMug"> <label for="hasMug" style="margin:0;">This item also has a Mug / Large price</label></div>
 
       <div class="mug-toggle"><input type="checkbox" id="itemAvailable" checked> <label for="itemAvailable" style="margin:0;">In stock (uncheck to add as "coming soon")</label></div>
+
+      <div class="field">
+        <label>Photos (optional, up to 3 — shown to customers on the dish detail popup)</label>
+        <div class="photo-row" id="newItemPhotoRow"></div>
+      </div>
 
       <button id="addItemBtn" style="width:100%;">Add item to menu</button>
       <div class="add-msg" id="addMsg"></div>
@@ -404,7 +410,13 @@ function renderPhotoRow(id){
   const images = mediaState[id].images;
   row.innerHTML = images.map((img, i)=>{
     if(img){
-      return `<div class="photo-slot filled"><img src="${img}"><button class="photo-remove" data-remove="${i}">✕</button></div>`;
+      return `<div class="photo-slot filled">
+        <label class="photo-replace" title="Tap to replace">
+          <input type="file" accept="image/*" class="photo-input" data-slot-input="${i}" hidden>
+          <img src="${img}">
+        </label>
+        <button class="photo-remove" data-remove="${i}" title="Remove">✕</button>
+      </div>`;
     }
     return `<label class="photo-slot empty"><input type="file" accept="image/*" class="photo-input" data-slot-input="${i}" hidden><span>+ Photo</span></label>`;
   }).join('');
@@ -492,6 +504,52 @@ document.getElementById('hasMug').addEventListener('change', (e)=>{
   document.getElementById('mugPriceField').style.display = e.target.checked ? 'block' : 'none';
 });
 
+/* ---------------- Photos for the "Add new item" form ----------------
+   Independent of the per-item media panel above — this lets an admin attach
+   photos to a dish right when it's created, instead of having to save the
+   item first and then open its photo editor. */
+let newItemImages = [null, null, null];
+
+function renderNewItemPhotoRow(){
+  const row = document.getElementById('newItemPhotoRow');
+  row.innerHTML = newItemImages.map((img, i)=>{
+    if(img){
+      return `<div class="photo-slot filled">
+        <label class="photo-replace" title="Tap to replace">
+          <input type="file" accept="image/*" class="new-photo-input" data-new-slot-input="${i}" hidden>
+          <img src="${img}">
+        </label>
+        <button type="button" class="photo-remove" data-new-remove="${i}" title="Remove">✕</button>
+      </div>`;
+    }
+    return `<label class="photo-slot empty"><input type="file" accept="image/*" class="new-photo-input" data-new-slot-input="${i}" hidden><span>+ Photo</span></label>`;
+  }).join('');
+}
+
+document.getElementById('newItemPhotoRow').addEventListener('change', async (e)=>{
+  if(!e.target.matches('.new-photo-input')) return;
+  const slot = Number(e.target.dataset.newSlotInput);
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const dataUrl = await compressImage(file);
+    newItemImages[slot] = dataUrl;
+    renderNewItemPhotoRow();
+  }catch(err){
+    alert('Could not read that photo — try a different file.');
+  }
+});
+
+document.getElementById('newItemPhotoRow').addEventListener('click', (e)=>{
+  const removeBtn = e.target.closest('[data-new-remove]');
+  if(!removeBtn) return;
+  const slot = Number(removeBtn.dataset.newRemove);
+  newItemImages[slot] = null;
+  renderNewItemPhotoRow();
+});
+
+renderNewItemPhotoRow();
+
 function slugify(str){
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'category';
 }
@@ -548,9 +606,11 @@ document.getElementById('addItemBtn').addEventListener('click', async ()=>{
       groupId = data.id;
     }
 
+    const images = newItemImages.filter(Boolean);
+
     const itemRes = await fetch('/api/admin/items', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ group_id: groupId, name, urdu, price, price2, available })
+      body: JSON.stringify({ group_id: groupId, name, urdu, price, price2, available, images })
     });
     if(itemRes.status === 401){ showLogin(); return; }
     const itemData = await itemRes.json();
@@ -567,6 +627,8 @@ document.getElementById('addItemBtn').addEventListener('click', async ()=>{
     document.getElementById('newCatLabel').value = '';
     document.getElementById('newCatDesc').value = '';
     document.getElementById('newGroupName').value = '';
+    newItemImages = [null, null, null];
+    renderNewItemPhotoRow();
 
     await loadStructure();
     await loadItems();
