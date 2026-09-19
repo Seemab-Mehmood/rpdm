@@ -1,0 +1,22 @@
+{
+  "name": "al-rizwan-menu-app",
+  "version": "1.0.0",
+  "description": "Al-Rizwan Paratha Experts — interactive digital menu with a database-backed admin panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js",
+    "add-new-items": "node scripts/add-new-items.js",
+    "add-media-columns": "node scripts/add-media-columns.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "cookie-parser": "^1.4.6",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

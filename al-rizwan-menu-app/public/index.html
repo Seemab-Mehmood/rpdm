@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Al-Rizwan Paratha Experts — Menu</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:ital,wght@0,400;0,500;0,600;1,500&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161009; --char:#221913; --char2:#2b2019;
+    --gold:#f2b134; --gold-deep:#c98a1f;
+    --ember:#d5342b; --ember-deep:#a3241d;
+    --cream:#f6ecda; --cream-dim:#cbbfab; --teal:#3fa896;
+    --line: rgba(246,236,218,0.14);
+    --shadow: 0 10px 30px rgba(0,0,0,0.45);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%, #2b2019 0%, var(--ink) 55%),var(--ink);color:var(--cream);font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;}
+  ::selection{background:var(--gold);color:var(--ink);}
+  a{color:inherit;}
+
+  .bg-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+  .bg-piece{position:absolute;opacity:.16;filter:blur(.2px);animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
+  @keyframes driftA{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(18px,-26px) rotate(14deg);}100%{transform:translate(0,0) rotate(0deg);}}
+  @keyframes driftB{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(-22px,20px) rotate(-12deg);}100%{transform:translate(0,0) rotate(0deg);}}
+  @keyframes driftC{0%{transform:translate(0,0) rotate(0deg) scale(1);}50%{transform:translate(12px,24px) rotate(8deg) scale(1.05);}100%{transform:translate(0,0) rotate(0deg) scale(1);}}
+  @media (prefers-reduced-motion: reduce){.bg-piece{animation:none !important;}}
+
+  .wrap{max-width:560px;margin:0 auto;position:relative;min-height:100vh;padding-bottom:96px;z-index:1;}
+
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(22,16,9,0.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .topbar img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+  .topbar .tb-text{flex:1;min-width:0;}
+  .topbar .tb-name{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar .tb-sub{font-size:10px;color:var(--cream-dim);white-space:nowrap;}
+  .tb-call{display:flex;align-items:center;gap:6px;background:var(--ember);color:#fff;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(213,52,43,0.4);white-space:nowrap;}
+
+  .hero{position:relative;padding:34px 20px 26px;text-align:center;background:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 26px);border-bottom:1px solid var(--line);overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(320px 200px at 50% 0%, rgba(242,177,52,0.16), transparent 70%);pointer-events:none;}
+  .badge-24{position:relative;display:inline-flex;align-items:center;gap:6px;background:var(--char2);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:1px;color:var(--gold);margin-bottom:16px;font-weight:600;overflow:hidden;}
+  .badge-24::after{
+    content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation:shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmer{0%{left:-60%;}55%{left:130%;}100%{left:130%;}}
+  .badge-24 .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  .logo-frame{position:relative;width:132px;height:132px;margin:0 auto 18px;}
+  .logo-frame img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--gold);box-shadow: var(--shadow), 0 0 0 6px rgba(242,177,52,0.08);filter:grayscale(1) contrast(1.05);}
+  .steam{position:absolute;top:-26px;right:6px;width:36px;height:34px;opacity:.9;}
+  .steam path{stroke:var(--cream-dim);stroke-width:2.4;fill:none;stroke-linecap:round;}
+  .steam .s1{animation:rise 3s ease-in-out infinite;}
+  .steam .s2{animation:rise 3s ease-in-out .5s infinite;}
+  .steam .s3{animation:rise 3s ease-in-out 1s infinite;}
+  @keyframes rise{0%{transform:translateY(6px);opacity:0;}30%{opacity:.9;}100%{transform:translateY(-10px);opacity:0;}}
+
+  .logo-frame{animation:heroPopIn .55s cubic-bezier(.34,1.56,.64,1) both;}
+  .brand{position:relative;font-family:'Fredoka',sans-serif;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.5px;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,0.5);animation:heroFadeUp .5s ease both .12s;}
+  @keyframes heroPopIn{from{opacity:0;transform:scale(.7) rotate(-8deg);}to{opacity:1;transform:scale(1) rotate(0deg);}}
+  @keyframes heroFadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){.logo-frame, .brand, .tagline, .hero-sub, .scroll-cue{animation:none;}}
+  .brand span{color:var(--cream);}
+  .tagline{position:relative;font-size:13px;color:var(--cream-dim);letter-spacing:.5px;margin-top:6px;font-style:italic;animation:heroFadeUp .5s ease both .22s;}
+  .hero-sub{position:relative;margin-top:16px;font-size:12.5px;color:var(--cream-dim);display:flex;justify-content:center;gap:14px;flex-wrap:wrap;animation:heroFadeUp .5s ease both .32s;}
+  .hero-sub span{display:flex;align-items:center;gap:5px;}
+  .scroll-cue{position:relative;margin-top:22px;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;animation:heroFadeUp .5s ease both .42s;}
+  .scroll-cue svg{animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+  .hero-cta-desktop{display:none;}
+
+  .cat-section{padding:22px 0 4px;}
+  .cat-title{padding:0 20px 12px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;color:var(--cream-dim);letter-spacing:.5px;}
+  .cat-title b{color:var(--gold);}
+  .carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 20px 14px;-ms-overflow-style:none;scrollbar-width:none;}
+  .carousel::-webkit-scrollbar{display:none;}
+  .cat-card{scroll-snap-align:start;flex:0 0 auto;width:92px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 10px;background:var(--char);border:1px solid var(--line);border-radius:18px;cursor:pointer;transition:transform .25s ease, border-color .25s ease, background .25s ease;}
+  .cat-card .ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--char2);font-size:22px;border:1px solid var(--line);transition:background .25s ease, transform .25s ease, box-shadow .25s ease;}
+  .cat-card:active .ic{transform:scale(.88) rotate(-8deg);}
+  @media (hover:hover){
+    .cat-card:hover .ic{animation:wiggle .5s ease;}
+  }
+  @keyframes wiggle{
+    0%,100%{transform:rotate(0deg) scale(1);}
+    25%{transform:rotate(-10deg) scale(1.05);}
+    75%{transform:rotate(10deg) scale(1.05);}
+  }
+  .cat-card .lbl{font-size:10.5px;text-align:center;line-height:1.25;color:var(--cream-dim);font-weight:600;}
+  .cat-card.active{border-color:var(--gold);background:linear-gradient(180deg, rgba(242,177,52,0.14), rgba(242,177,52,0.03));transform:translateY(-3px);}
+  .cat-card.active .ic{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.35);transform:scale(1.06);}
+  .cat-card.active .lbl{color:var(--gold);}
+
+  .menu-panel{padding:6px 20px 10px;min-height:340px;}
+  .dissolve{animation:dissolveIn .38s ease both;}
+  @keyframes dissolveIn{from{opacity:0;filter:blur(6px);transform:translateY(10px) scale(.985);}to{opacity:1;filter:blur(0);transform:translateY(0) scale(1);}}
+  .dissolve-out{animation:dissolveOut .22s ease both;}
+  @keyframes dissolveOut{from{opacity:1;filter:blur(0);}to{opacity:0;filter:blur(6px);}}
+
+  .cat-header{display:flex;align-items:center;gap:10px;margin:6px 0 16px;}
+  .cat-header .ic-big{width:46px;height:46px;border-radius:14px;background:var(--char);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;flex:0 0 auto;}
+  .cat-header h2{font-family:'Fredoka',sans-serif;font-size:19px;margin:0;color:var(--cream);}
+  .cat-header p{margin:2px 0 0;font-size:11.5px;color:var(--cream-dim);}
+
+  .group{margin-bottom:22px;}
+  .group-title{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 10px 2px;display:flex;align-items:center;gap:8px;}
+  .group-title::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  .item{display:flex;align-items:center;gap:10px;padding:10px 6px;margin:0 -6px;border-radius:10px;border-bottom:1px dashed var(--line);cursor:pointer;user-select:none;position:relative;transition:background .18s ease, box-shadow .18s ease, transform .12s ease;}
+  .item:last-child{border-bottom:none;}
+  .item:active{transform:scale(.99);}
+  .item .item-thumb{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:0 0 auto;border:1px solid var(--line);background:var(--char2);}
+  .item .item-main{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px;}
+  .item .name{font-size:14px;font-weight:500;color:var(--cream);}
+  .item .urdu{display:block;font-size:11.5px;color:var(--cream-dim);margin-top:2px;direction:rtl;}
+  .item .leader{flex:1;border-bottom:2px dotted rgba(246,236,218,0.22);transform:translateY(-4px);min-width:16px;}
+  .item .price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:14px;white-space:nowrap;}
+  .item .price small{color:var(--cream-dim);font-weight:500;font-size:10px;}
+  .item .price .mug{color:var(--ember);margin-left:4px;}
+  .price-note{font-size:10px;color:var(--cream-dim);margin:-8px 0 14px;text-align:right;}
+  .item.picked{background:linear-gradient(90deg, rgba(242,177,52,0.18), rgba(242,177,52,0.04));box-shadow:inset 0 0 0 1.5px rgba(242,177,52,0.55);}
+  .item.just-picked{animation:itemPop .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes itemPop{
+    0%{transform:scale(1);}
+    35%{transform:scale(1.025);}
+    100%{transform:scale(1);}
+  }
+  .item.picked .name::before{content:"✓  ";color:var(--gold);font-weight:700;}
+  .item .qty-badge{background:var(--gold);color:var(--ink);font-weight:700;font-size:10.5px;padding:2px 7px;border-radius:999px;flex:0 0 auto;white-space:nowrap;}
+  .item.soldout{opacity:.42;cursor:not-allowed;}
+  .item.soldout .price{display:none;}
+  .soldout-badge{font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ember);background:rgba(213,52,43,0.12);border:1px solid rgba(213,52,43,0.4);padding:3px 8px;border-radius:999px;white-space:nowrap;}
+
+  .order-bar{position:fixed;left:0;right:0;bottom:64px;z-index:59;display:flex;justify-content:center;padding:0 16px;transform:translateY(120%);opacity:0;transition:transform .3s ease, opacity .3s ease;}
+  .order-bar.show{transform:translateY(0);opacity:1;}
+  .order-inner{max-width:560px;width:100%;background:var(--char2);border:1px solid var(--gold);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
+  .ot-summary{display:flex;align-items:center;gap:10px;}
+  .ot-summary .ot-count{background:var(--gold);color:var(--ink);font-weight:700;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:transform .15s ease;}
+  .ot-summary .ot-count.bump{animation:countBump .35s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes countBump{
+    0%{transform:scale(1);}
+    40%{transform:scale(1.4) rotate(-8deg);}
+    100%{transform:scale(1) rotate(0deg);}
+  }
+  .ot-summary .ot-text{flex:1;font-size:12.5px;color:var(--cream);}
+  .ot-summary .ot-total{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:13.5px;}
+  .ot-actions{display:flex;gap:8px;}
+  .ot-actions .ot-clear{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--cream-dim);font-size:11.5px;padding:10px 14px;border-radius:10px;cursor:pointer;}
+  .ot-actions .ot-send{flex:1;background:#25a559;color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:700;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 14px rgba(37,165,89,0.35);}
+  .ot-actions .ot-send:active{transform:scale(.97);}
+
+  .mode-banner{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(242,177,52,0.07);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--cream-dim);text-align:center;flex-wrap:wrap;}
+  .mode-banner b{color:var(--gold);font-weight:600;}
+  .mode-banner button{background:transparent;border:1px solid var(--line);color:var(--cream);font-size:10.5px;padding:5px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;}
+  .mode-banner button:active{transform:scale(.96);}
+  body.mode-dinein .order-bar,
+  body.mode-dinein .cta-bar,
+  body.mode-dinein .dish-pick-btn,
+  body.mode-dinein .dish-qty-row{display:none !important;}
+
+  .footer{padding:28px 20px 10px;border-top:1px solid var(--line);margin-top:10px;position:relative;}
+  .footer h3{font-family:'Fredoka',sans-serif;font-size:14px;color:var(--gold);letter-spacing:.5px;margin:0 0 12px;}
+  .branch{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;}
+  .branch:last-child{border-bottom:none;}
+  .branch .n{color:var(--cream-dim);font-weight:600;flex:0 0 auto;}
+  .branch .a{text-align:right;color:var(--cream);}
+  .app-icon-grid{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap;justify-content:center;text-align:center;}
+  .app-icon-tile{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    text-decoration:none;width:64px;
+    animation:tileFloat 4s ease-in-out infinite;
+  }
+  .app-icon-tile:nth-child(1){animation-delay:0s;}
+  .app-icon-tile:nth-child(2){animation-delay:.3s;}
+  .app-icon-tile:nth-child(3){animation-delay:.6s;}
+  .app-icon-tile:nth-child(4){animation-delay:.9s;}
+  .app-icon-tile:nth-child(5){animation-delay:1.2s;}
+  .app-icon-glyph{
+    width:52px;height:52px;border-radius:16px;background:var(--tile-bg);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition:transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+  }
+  .app-icon-glyph svg{width:26px;height:26px;}
+  .app-icon-tile:active .app-icon-glyph{transform:scale(.88) rotate(-4deg);}
+  .app-icon-label{font-size:10px;color:var(--cream-dim);font-weight:600;text-align:center;}
+  @media (hover:hover){
+    .app-icon-tile:hover .app-icon-glyph{transform:scale(1.12) rotate(-6deg);box-shadow:0 10px 22px rgba(0,0,0,0.45);}
+    .app-icon-tile:hover .app-icon-label{color:var(--gold);}
+  }
+  @keyframes tileFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+  @media (prefers-reduced-motion: reduce){.app-icon-tile{animation:none;}}
+  .footer .handle{font-size:11px;color:var(--cream-dim);margin-top:10px;text-align:center;}
+  .footer .credit{font-size:10px;color:var(--cream-dim);opacity:.6;text-align:center;margin-top:20px;}
+
+  .cta-bar{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;justify-content:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(0deg, rgba(22,16,9,0.98), rgba(22,16,9,0.85));border-top:1px solid var(--line);}
+  .cta-inner{max-width:560px;width:100%;display:flex;gap:10px;}
+  .cta-inner a{flex:1;text-align:center;padding:12px 10px;border-radius:14px;font-weight:700;font-size:13px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .12s ease;}
+  .cta-inner a:active{transform:scale(.95);}
+  .cta-call{background:var(--ember);color:#fff;box-shadow:0 6px 16px rgba(213,52,43,0.35);}
+  .cta-wa{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(242,177,52,0.3);}
+
+  .loading{padding:40px 20px;text-align:center;color:var(--cream-dim);font-size:13px;}
+  .error{padding:40px 20px;text-align:center;color:var(--ember);font-size:13px;}
+
+  /* ---------------- Dish detail modal ---------------- */
+  .dish-overlay{
+    position:fixed;inset:0;background:rgba(10,7,4,0.75);backdrop-filter:blur(4px);
+    z-index:200;display:none;align-items:flex-end;justify-content:center;
+  }
+  .dish-overlay.open{display:flex;}
+  .dish-sheet{
+    width:100%;max-width:560px;max-height:88vh;overflow-y:auto;position:relative;
+    background:var(--char);border:1px solid var(--line);border-radius:22px 22px 0 0;
+    animation:dishSlideUp .28s ease both;
+  }
+  @keyframes dishSlideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .dish-gallery{position:relative;width:100%;aspect-ratio:4/3;background:var(--char2);overflow:hidden;border-radius:22px 22px 0 0;}
+  .dish-gallery img{width:100%;height:100%;object-fit:cover;display:block;}
+  .dish-gallery.no-photo{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:radial-gradient(circle at 50% 40%, rgba(242,177,52,0.10), transparent 70%), var(--char2);}
+  .dish-gallery.no-photo img{width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);opacity:.92;filter:grayscale(1) contrast(1.05);}
+  .dish-gallery.no-photo .no-photo-caption{font-size:11.5px;color:var(--cream-dim);}
+  .dish-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px;}
+  .dish-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;border:none;padding:0;}
+  .dish-dot.active{background:var(--gold);}
+  .dish-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(20,14,8,0.55);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;}
+  .dish-nav.prev{left:10px;}
+  .dish-nav.next{right:10px;}
+  .dish-close{position:absolute;top:12px;right:12px;background:rgba(20,14,8,0.6);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;z-index:2;line-height:1;}
+  .dish-body{padding:20px;}
+  .dish-body h2{font-family:'Fredoka',sans-serif;margin:0 0 2px;font-size:19px;color:var(--cream);}
+  .dish-body .dish-urdu{font-size:13px;color:var(--cream-dim);direction:rtl;margin-bottom:8px;display:block;}
+  .dish-body .dish-price{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:700;font-size:16px;margin-bottom:14px;}
+  .dish-body .dish-desc{font-size:13px;line-height:1.65;color:var(--cream-dim);margin-bottom:20px;white-space:pre-wrap;}
+  .dish-pick-btn{width:100%;padding:13px;border-radius:12px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--gold);color:var(--ink);}
+  .dish-pick-btn.active{background:var(--char2);color:var(--gold);border:1.5px solid var(--gold);}
+  .dish-qty-row{display:flex;align-items:center;gap:14px;justify-content:center;padding:9px;border-radius:12px;border:1.5px solid var(--gold);background:rgba(242,177,52,0.08);}
+  .dish-qty-row .qty-btn{width:34px;height:34px;border-radius:50%;border:none;background:var(--gold);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;line-height:1;}
+  .dish-qty-row .qty-btn:active{transform:scale(.92);}
+  .dish-qty-row .dish-qty-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:var(--gold);min-width:18px;text-align:center;}
+  .dish-qty-row .dish-qty-label{font-size:11.5px;color:var(--cream-dim);}
+  .dish-loading{padding:70px 20px;text-align:center;color:var(--cream-dim);font-size:13px;}
+
+  .desktop-only-hint{display:none;}
+
+  @media (min-width:560px){.hero{padding:44px 30px 32px;}.brand{font-size:36px;}}
+
+  /* ================= Tablet & laptop layouts ================= */
+  @media (min-width:760px){
+    .wrap{max-width:820px;padding-bottom:40px;}
+    .cta-bar{display:none;} /* full menu is visible at once; sticky call bar lives in topbar instead */
+    .order-bar{bottom:20px;} /* still the way to send a WhatsApp order on wide screens */
+    .topbar{padding:14px 28px;}
+    .topbar .tb-name{font-size:16px;}
+    .topbar .tb-sub{font-size:11px;}
+    .tb-call{padding:10px 16px;font-size:13px;}
+    .tb-wa{
+      display:flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);
+      padding:10px 16px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+      box-shadow:0 4px 14px rgba(242,177,52,0.3);white-space:nowrap;margin-left:8px;
+    }
+
+    .hero{
+      display:flex;align-items:center;gap:36px;text-align:left;padding:48px 40px;
+    }
+    .hero-copy{flex:1;}
+    .badge-24{margin-bottom:14px;}
+    .brand{font-size:42px;}
+    .hero-sub{justify-content:flex-start;}
+    .scroll-cue{display:none;} /* nothing to scroll to on desktop, whole menu is visible */
+    .logo-frame{margin:0;flex:0 0 auto;width:150px;height:150px;}
+    .hero-cta-desktop{display:flex;gap:12px;margin-top:20px;}
+    .hero-cta-desktop .tb-call{padding:11px 20px;font-size:13px;}
+
+    .browse{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start;padding:30px 40px 10px;}
+    .cat-section{padding:0;position:sticky;top:74px;}
+    .cat-title{padding:0 0 14px;font-size:13px;}
+    .desktop-only-hint{display:inline;color:var(--cream-dim);font-weight:400;}
+    .carousel{
+      flex-direction:column;overflow:visible;padding:0;gap:8px;
+    }
+    .cat-card{
+      flex-direction:row;width:100%;justify-content:flex-start;gap:12px;
+      padding:10px 12px;border-radius:14px;
+    }
+    .cat-card .ic{width:36px;height:36px;font-size:18px;flex:0 0 auto;}
+    .cat-card .lbl{text-align:left;font-size:12px;}
+    .cat-card:hover{border-color:var(--gold-deep);transform:translateX(3px);}
+    .cat-card.active{transform:translateX(3px);}
+
+    .menu-panel{padding:0;min-height:auto;}
+    .cat-header h2{font-size:23px;}
+    .group{
+      background:var(--char);border:1px solid var(--line);border-radius:16px;
+      padding:18px 20px;margin-bottom:18px;
+    }
+    .item{padding:11px 4px;border-radius:10px;}
+    .item:hover:not(.soldout){
+      background:linear-gradient(90deg, rgba(242,177,52,0.10), transparent);
+      box-shadow:inset 0 0 0 1px rgba(242,177,52,0.28);
+    }
+    .item.picked:hover{box-shadow:inset 0 0 0 1.5px rgba(242,177,52,0.6);}
+
+    .footer{padding:30px 40px 24px;}
+    .app-icon-grid{gap:18px;}
+  }
+
+  /* ================= Wide laptop / large screens ================= */
+  @media (min-width:1080px){
+    .wrap{max-width:1080px;}
+    .browse{grid-template-columns:230px 1fr;gap:36px;}
+    .group{
+      display:grid;grid-template-columns:1fr 1fr;gap:0 28px;
+    }
+    .group-title{grid-column:1 / -1;}
+    .item{border-bottom:1px dashed var(--line);}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<div class="wrap">
+  <div class="topbar">
+    <img src="/logo.jpg" alt="Al-Rizwan logo">
+    <div class="tb-text">
+      <div class="tb-name">Al-Rizwan Paratha Experts</div>
+      <div class="tb-sub">Har Paratha, Behtareen Swaad</div>
+    </div>
+    <a class="tb-call" href="tel:03004421193">📞 Call</a>
+  </div>
+  <div class="mode-banner" id="modeBanner"></div>
+
+  <div class="hero">
+    <div class="logo-frame">
+      <img src="/logo.jpg" alt="Al-Rizwan Paratha Experts">
+      <svg class="steam" viewBox="0 0 36 34">
+        <path class="s1" d="M10 30 C 6 24, 14 20, 10 14" />
+        <path class="s2" d="M18 30 C 14 24, 22 20, 18 14" />
+        <path class="s3" d="M26 30 C 22 24, 30 20, 26 14" />
+      </svg>
+    </div>
+    <div class="hero-copy">
+      <div class="badge-24"><span class="dot"></span> OPEN 24 HOURS · PURE TASTE, PURE QUALITY</div>
+      <div class="brand">AL-RIZWAN<br><span>PARATHA EXPERTS</span></div>
+      <div class="tagline">Turkish Shawarma &amp; Fatayer · Since the tawa never went cold</div>
+      <div class="hero-sub">
+        <span>🔥 4 Branches in Lahore</span>
+        <span>🥙 Desi + Turkish</span>
+      </div>
+      <div class="scroll-cue">
+        Tap a category
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1L8 8L15 1" stroke="#f2b134" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="hero-cta-desktop">
+        <a class="tb-call" href="tel:03004421193">📞 Call to Home Delivery</a>
+        <a class="tb-wa" href="https://wa.me/923004421193" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="browse">
+    <div class="cat-section">
+      <div class="cat-title">Pick a <b>category</b><span class="desktop-only-hint"> — panels update instantly</span></div>
+      <div class="carousel" id="carousel"></div>
+    </div>
+
+    <div class="menu-panel" id="menuPanel"><div class="loading">Loading today's menu…</div></div>
+  </div>
+
+  <div class="footer">
+    <h3>OUR BRANCHES</h3>
+    <div class="branch"><span class="n">Branch 1</span><span class="a">Zaildar Road, Ichra</span></div>
+    <div class="branch"><span class="n">Branch 2</span><span class="a">Mor Saman Abad</span></div>
+    <div class="branch"><span class="n">Branch 3</span><span class="a">Pakki Thati Road, Lahore</span></div>
+    <div class="branch"><span class="n">Branch 4</span><span class="a">Ganga Ram, Near Gate No.4, Queen Road</span></div>
+
+    <h3 style="margin-top:22px;">FOLLOW &amp; ORDER</h3>
+    <div class="app-icon-grid">
+      <a class="app-icon-tile" href="tel:03004421193" style="--tile-bg: linear-gradient(135deg,#3fa896,#2c8272);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.2 1.1L6.6 10.8z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Call</span>
+      </a>
+      <a class="app-icon-tile" href="https://wa.me/923004421193" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#3fd67a,#25a559);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="white" opacity=".18"/><path d="M12 3.6a8.4 8.4 0 0 0-7.2 12.7l.2.4-.9 3.3 3.4-.9.4.2A8.4 8.4 0 1 0 12 3.6zm4.9 11.9c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .5.4.2.5.7 1.8.7 1.9.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.5 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.7.8c.2.1.3.2.4.3.1.2.1.7-.1 1.3z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">WhatsApp</span>
+      </a>
+      <a class="app-icon-tile" href="https://instagram.com/al_rizwan_paratha_experts" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Instagram</span>
+      </a>
+      <a class="app-icon-tile" href="https://www.tiktok.com/@al_rizwan_paratha_experts" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#1f1f24,#000);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 3v9.6a2.9 2.9 0 1 1-2.4-2.86" stroke="#69f4e8" stroke-width="1.7" stroke-linecap="round"/><path d="M14 3c.4 2.2 2 3.8 4.2 4.1" stroke="#ee1d52" stroke-width="1.7" stroke-linecap="round"/><path d="M13.5 3.5c.4 2.2 2 3.8 4.2 4.1" stroke="white" stroke-width="1" stroke-linecap="round" opacity=".7"/></svg>
+        </span>
+        <span class="app-icon-label">TikTok</span>
+      </a>
+      <a class="app-icon-tile" href="https://facebook.com" target="_blank" rel="noopener" style="--tile-bg: linear-gradient(135deg,#4267ff,#2d4ecb);">
+        <span class="app-icon-glyph">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14.5 21v-7.2h2.4l.4-2.8h-2.8V9.2c0-.8.2-1.4 1.4-1.4h1.5V5.3C16.9 5.2 16 5.1 15 5.1c-2.2 0-3.7 1.3-3.7 3.8v2.1H8.9v2.8h2.4V21h3.2z" fill="white"/></svg>
+        </span>
+        <span class="app-icon-label">Facebook</span>
+      </a>
+    </div>
+    <div class="handle">@al_rizwan_paratha_experts on all platforms</div>
+    <div class="credit">Scan · Tap · Taste — digital menu for Al-Rizwan Paratha Experts</div>
+  </div>
+</div>
+
+<div class="dish-overlay" id="dishOverlay">
+  <div class="dish-sheet" id="dishSheet"></div>
+</div>
+
+<div class="order-bar" id="orderBar">
+  <div class="order-inner">
+    <div class="ot-summary">
+      <div class="ot-count" id="otCount">0</div>
+      <div class="ot-text">items selected</div>
+      <div class="ot-total" id="otTotal">Rs.0</div>
+    </div>
+    <div class="ot-actions">
+      <button class="ot-clear" id="otClear">Clear</button>
+      <button class="ot-send" id="otSend">💬 Send Order via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bar">
+  <div class="cta-inner">
+    <a class="cta-call" href="tel:03004421193">📞 Home Delivery</a>
+    <a class="cta-wa" href="https://wa.me/923004421193" target="_blank" rel="noopener">💬 WhatsApp</a>
+  </div>
+</div>
+
+<script>
+const bgLayer = document.getElementById('bgLayer');
+const PARATHA_SVG = `<svg width="46" height="46" viewBox="0 0 46 46" fill="none"><circle cx="23" cy="23" r="19" fill="#f2b134"/><circle cx="23" cy="23" r="19" stroke="#c98a1f" stroke-width="2"/><path d="M23 6a17 17 0 0 1 0 34" stroke="#c98a1f" stroke-width="1.4" fill="none"/><path d="M8 15a17 17 0 0 1 21-6" stroke="#c98a1f" stroke-width="1.4" fill="none"/></svg>`;
+const CHILI_SVG = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M9 6c2 3 1 6-1 8" stroke="#3fa896" stroke-width="2.4" stroke-linecap="round"/><path d="M8 12c8-3 20 2 22 13 1.5 8-5 13-11 11C11 34 4 25 6 18c1-4 2-5 2-6z" fill="#d5342b"/></svg>`;
+const pieces = [
+  {svg:PARATHA_SVG, top:'4%',  left:'6%',  size:60, anim:'driftA', dur:'14s'},
+  {svg:CHILI_SVG,   top:'14%', left:'80%', size:44, anim:'driftB', dur:'11s'},
+  {svg:PARATHA_SVG, top:'32%', left:'85%', size:40, anim:'driftC', dur:'16s'},
+  {svg:CHILI_SVG,   top:'46%', left:'4%',  size:36, anim:'driftA', dur:'13s'},
+  {svg:PARATHA_SVG, top:'62%', left:'88%', size:52, anim:'driftB', dur:'15s'},
+  {svg:CHILI_SVG,   top:'72%', left:'10%', size:40, anim:'driftC', dur:'12s'},
+  {svg:PARATHA_SVG, top:'86%', left:'70%', size:34, anim:'driftA', dur:'17s'},
+  {svg:CHILI_SVG,   top:'92%', left:'30%', size:30, anim:'driftB', dur:'10s'},
+];
+pieces.forEach((p,i)=>{
+  const el = document.createElement('div');
+  el.className = 'bg-piece';
+  el.style.top = p.top; el.style.left = p.left;
+  el.style.width = p.size+'px'; el.style.height = p.size+'px';
+  el.style.animationName = p.anim; el.style.animationDuration = p.dur;
+  el.style.animationDelay = (i*0.6)+'s';
+  el.innerHTML = p.svg;
+  bgLayer.appendChild(el);
+});
+
+const carousel = document.getElementById('carousel');
+const panel = document.getElementById('menuPanel');
+const picked = new Map(); // itemId -> quantity
+let DATA = [];
+let currentCatId = null;
+
+/* ---------------- Dine-in vs online-order mode ---------------- */
+const MODE_KEY = 'rp_menu_mode';
+function getInitialMode(){
+  const params = new URLSearchParams(location.search);
+  if(params.get('dinein') === '1' || params.get('mode') === 'dinein') return 'dinein';
+  if(params.get('mode') === 'online') return 'online';
+  return sessionStorage.getItem(MODE_KEY) === 'dinein' ? 'dinein' : 'online';
+}
+let currentMode = getInitialMode();
+
+function renderModeBanner(){
+  const el = document.getElementById('modeBanner');
+  if(currentMode === 'dinein'){
+    el.innerHTML = `<span>🍽️ <b>Dine-in menu</b> — just browse, then tell your order to our waiter.</span>
+      <button id="modeSwitchBtn">Ordering from outside instead?</button>`;
+  }else{
+    el.innerHTML = `<span>📱 Tap a dish, then send your picks straight to us on WhatsApp.</span>
+      <button id="modeSwitchBtn">Dining in with us right now?</button>`;
+  }
+  document.getElementById('modeSwitchBtn').addEventListener('click', ()=>{
+    currentMode = currentMode === 'dinein' ? 'online' : 'dinein';
+    applyMode();
+  });
+}
+
+function applyMode(){
+  document.body.classList.toggle('mode-dinein', currentMode === 'dinein');
+  sessionStorage.setItem(MODE_KEY, currentMode);
+  renderModeBanner();
+  updateOrderBar();
+}
+applyMode();
+
+function priceHTML(item){
+  if(item.price2){
+    return `<span class="price">Rs.${item.price}<small> gl</small><span class="mug">/ ${item.price2}<small> mug</small></span></span>`;
+  }
+  return `<span class="price">Rs.${item.price}</span>`;
+}
+
+function renderCarousel(){
+  carousel.innerHTML = '';
+  DATA.forEach((cat, i)=>{
+    const btn = document.createElement('div');
+    btn.className = 'cat-card' + (cat.id===currentCatId ? ' active' : '');
+    btn.dataset.id = cat.id;
+    btn.innerHTML = `<div class="ic">${cat.icon}</div><div class="lbl">${cat.label}</div>`;
+    btn.addEventListener('click', ()=> selectCategory(cat.id));
+    carousel.appendChild(btn);
+  });
+}
+
+function renderCategory(cat){
+  currentCatId = cat.id;
+  let html = `<div class="cat-header"><div class="ic-big">${cat.icon}</div><div><h2>${cat.title}</h2><p>${cat.description}</p></div></div>`;
+  let hasMug = false;
+  cat.groups.forEach((g, gi)=>{
+    html += `<div class="group"><div class="group-title">${g.name}</div>`;
+    g.items.forEach((item)=>{
+      if(item.price2) hasMug = true;
+      const key = String(item.id);
+      const qty = picked.get(key) || 0;
+      const isPicked = qty > 0;
+      const soldout = !item.available;
+      const thumbHTML = item.thumb
+        ? `<img class="item-thumb" src="${item.thumb}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`
+        : '';
+      html += `
+        <div class="item ${isPicked?'picked':''} ${soldout?'soldout':''}" data-key="${key}" data-price="${item.price}">
+          ${thumbHTML}
+          <div class="item-main">
+            <div><span class="name">${item.name}</span><span class="urdu">${item.urdu}</span></div>
+            <div class="leader"></div>
+            ${soldout ? `<span class="soldout-badge">Coming back soon</span>` : priceHTML(item)}
+          </div>
+          ${isPicked ? `<span class="qty-badge">${qty}×</span>` : ''}
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  if(hasMug) html += `<div class="price-note">gl = Glass · mug = Mug</div>`;
+  panel.innerHTML = html;
+  panel.classList.remove('dissolve-out');
+  void panel.offsetWidth;
+  panel.classList.add('dissolve');
+
+  panel.querySelectorAll('.item:not(.soldout)').forEach(row=>{
+    row.addEventListener('click', ()=> openDishModal(row.dataset.key));
+  });
+  renderCarousel();
+}
+
+function setQty(key, qty){
+  qty = Math.max(0, qty);
+  if(qty === 0) picked.delete(key); else picked.set(key, qty);
+  const row = document.querySelector(`.item[data-key="${key}"]`);
+  if(row){
+    row.classList.toggle('picked', qty > 0);
+    let badge = row.querySelector('.qty-badge');
+    if(qty > 0){
+      if(!badge){ badge = document.createElement('span'); badge.className = 'qty-badge'; row.appendChild(badge); }
+      badge.textContent = qty + '×';
+      row.classList.remove('just-picked');
+      void row.offsetWidth;
+      row.classList.add('just-picked');
+    }else if(badge){
+      badge.remove();
+    }
+  }
+  updateOrderBar();
+}
+
+/* ---------------- Dish detail modal ---------------- */
+let currentDishSlide = 0;
+
+async function openDishModal(key){
+  const item = findItemById(key);
+  if(!item) return;
+
+  const overlay = document.getElementById('dishOverlay');
+  const sheet = document.getElementById('dishSheet');
+  overlay.classList.add('open');
+  sheet.innerHTML = '<div class="dish-loading">Loading…</div>';
+
+  try{
+    const res = await fetch(`/api/items/${key}`);
+    const detail = res.ok ? await res.json() : {};
+    renderDishSheet(item, detail);
+  }catch(err){
+    renderDishSheet(item, {});
+  }
+}
+
+function pickControlHTML(key){
+  const qty = picked.get(key) || 0;
+  if(qty === 0){
+    return `<button class="dish-pick-btn" id="dishPickBtn">Add to my order</button>`;
+  }
+  return `<div class="dish-qty-row">
+      <button class="qty-btn" id="dishQtyMinus" aria-label="Decrease">−</button>
+      <span class="dish-qty-num">${qty}</span>
+      <button class="qty-btn" id="dishQtyPlus" aria-label="Increase">+</button>
+      <span class="dish-qty-label">in your order</span>
+    </div>`;
+}
+
+function wirePickControl(key){
+  const addBtn = document.getElementById('dishPickBtn');
+  if(addBtn){
+    addBtn.addEventListener('click', ()=>{
+      setQty(key, 1);
+      document.getElementById('dishPickSlot').innerHTML = pickControlHTML(key);
+      wirePickControl(key);
+    });
+  }
+  const minus = document.getElementById('dishQtyMinus');
+  const plus = document.getElementById('dishQtyPlus');
+  if(minus) minus.addEventListener('click', ()=>{
+    setQty(key, (picked.get(key) || 0) - 1);
+    document.getElementById('dishPickSlot').innerHTML = pickControlHTML(key);
+    wirePickControl(key);
+  });
+  if(plus) plus.addEventListener('click', ()=>{
+    setQty(key, (picked.get(key) || 0) + 1);
+    document.getElementById('dishPickSlot').innerHTML = pickControlHTML(key);
+    wirePickControl(key);
+  });
+}
+
+function renderDishSheet(item, detail){
+  currentDishSlide = 0;
+  const images = (detail.images || []).filter(Boolean);
+  const description = (detail.description || '').trim();
+  const key = String(item.id);
+
+  const galleryHTML = images.length
+    ? `<div class="dish-gallery" id="dishGallery">
+        ${images.map((src,i)=>`<img src="${src}" style="display:${i===0?'block':'none'}" data-slide="${i}" alt="${item.name}">`).join('')}
+        ${images.length>1 ? `
+          <button class="dish-nav prev" id="dishPrev">‹</button>
+          <button class="dish-nav next" id="dishNext">›</button>
+          <div class="dish-dots">${images.map((_,i)=>`<button class="dish-dot ${i===0?'active':''}" data-dot="${i}"></button>`).join('')}</div>
+        ` : ''}
+      </div>`
+    : `<div class="dish-gallery no-photo">
+        <img src="/logo.jpg" alt="Al-Rizwan Paratha Experts">
+        <div class="no-photo-caption">No photos added yet</div>
+      </div>`;
+
+  document.getElementById('dishSheet').innerHTML = `
+    <button class="dish-close" id="dishClose">✕</button>
+    ${galleryHTML}
+    <div class="dish-body">
+      <h2>${item.name}</h2>
+      <span class="dish-urdu">${item.urdu}</span>
+      <div class="dish-price">${item.price2 ? `Rs.${item.price} <small>gl</small> / Rs.${item.price2} <small>mug</small>` : `Rs.${item.price}`}</div>
+      <div class="dish-desc">${description ? escapeHtml(description) : 'No description added yet.'}</div>
+      <div id="dishPickSlot">${pickControlHTML(key)}</div>
+    </div>`;
+
+  document.getElementById('dishClose').addEventListener('click', closeDishModal);
+  wirePickControl(key);
+
+  if(images.length > 1){
+    document.getElementById('dishPrev').addEventListener('click', ()=> shiftDishSlide(-1, images.length));
+    document.getElementById('dishNext').addEventListener('click', ()=> shiftDishSlide(1, images.length));
+    document.querySelectorAll('.dish-dot').forEach(dot=>{
+      dot.addEventListener('click', ()=> goToDishSlide(Number(dot.dataset.dot)));
+    });
+  }
+}
+
+function shiftDishSlide(dir, total){ goToDishSlide((currentDishSlide + dir + total) % total); }
+function goToDishSlide(i){
+  currentDishSlide = i;
+  document.querySelectorAll('#dishGallery img').forEach(img=>{
+    img.style.display = Number(img.dataset.slide) === i ? 'block' : 'none';
+  });
+  document.querySelectorAll('.dish-dot').forEach(dot=>{
+    dot.classList.toggle('active', Number(dot.dataset.dot) === i);
+  });
+}
+
+function closeDishModal(){
+  document.getElementById('dishOverlay').classList.remove('open');
+}
+document.getElementById('dishOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'dishOverlay') closeDishModal();
+});
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function findItemById(id){
+  for(const cat of DATA) for(const g of cat.groups) for(const it of g.items) if(String(it.id)===id) return it;
+  return null;
+}
+
+function updateOrderBar(){
+  const bar = document.getElementById('orderBar');
+  const countEl = document.getElementById('otCount');
+  let total = 0, count = 0;
+  picked.forEach((qty, key)=>{ const it = findItemById(key); if(it){ total += it.price * qty; count += qty; } });
+  if(countEl.textContent !== String(count)){
+    countEl.classList.remove('bump');
+    void countEl.offsetWidth;
+    countEl.classList.add('bump');
+  }
+  countEl.textContent = count;
+  document.getElementById('otTotal').textContent = 'Rs.' + total;
+  bar.classList.toggle('show', picked.size > 0 && currentMode !== 'dinein');
+}
+document.getElementById('otClear').addEventListener('click', ()=>{
+  picked.clear();
+  document.querySelectorAll('.item.picked').forEach(el=>{
+    el.classList.remove('picked');
+    const badge = el.querySelector('.qty-badge');
+    if(badge) badge.remove();
+  });
+  updateOrderBar();
+});
+
+function buildOrderMessage(){
+  const lines = [];
+  let total = 0;
+  picked.forEach((qty, key)=>{
+    const it = findItemById(key);
+    if(!it) return;
+    const lineTotal = it.price * qty;
+    total += lineTotal;
+    lines.push(`${qty}x ${it.name} — Rs.${lineTotal}`);
+  });
+  let msg = `Hi Al-Rizwan Paratha Experts! I'd like to order:\n\n`;
+  msg += lines.join('\n');
+  msg += `\n\nTotal: Rs.${total}`;
+  msg += `\n\n(Sent from your online menu — please confirm delivery/pickup and payment.)`;
+  return msg;
+}
+document.getElementById('otSend').addEventListener('click', ()=>{
+  if(picked.size === 0) return;
+  const url = `https://wa.me/923004421193?text=${encodeURIComponent(buildOrderMessage())}`;
+  window.open(url, '_blank', 'noopener');
+});
+
+function selectCategory(id){
+  const cat = DATA.find(c=>c.id===id);
+  panel.classList.remove('dissolve');
+  panel.classList.add('dissolve-out');
+  setTimeout(()=> renderCategory(cat), 180);
+  requestAnimationFrame(()=>{
+    const activeCard = document.querySelector(`.cat-card[data-id="${id}"]`);
+    if(activeCard) activeCard.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  });
+}
+
+async function loadMenu(){
+  try{
+    const res = await fetch('/api/menu');
+    if(!res.ok) throw new Error('bad response');
+    DATA = await res.json();
+    if(!DATA.length){ panel.innerHTML = '<div class="error">Menu is empty — ask staff to check the admin panel.</div>'; return; }
+    renderCategory(DATA[0]);
+  }catch(err){
+    panel.innerHTML = '<div class="error">Could not load the menu. Pull to refresh, or check your connection.</div>';
+  }
+}
+loadMenu();
+</script>
+</body>
+</html>
