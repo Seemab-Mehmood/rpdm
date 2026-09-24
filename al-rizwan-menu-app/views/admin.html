@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Rizwan — Staff Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Poppins:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161009; --char:#221913; --char2:#2b2019;
+    --gold:#f2b134; --ember:#d5342b; --cream:#f6ecda; --cream-dim:#cbbfab; --teal:#3fa896;
+    --line: rgba(246,236,218,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ink);color:var(--cream);font-family:'Poppins',sans-serif;min-height:100vh;}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px;}
+  h1{font-family:'Fredoka',sans-serif;font-size:20px;color:var(--gold);margin:0 0 4px;}
+  .sub{font-size:12px;color:var(--cream-dim);margin-bottom:24px;}
+
+  .card{background:var(--char);border:1px solid var(--line);border-radius:16px;padding:20px;}
+  input[type="password"]{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--char2);color:var(--cream);font-size:14px;margin-bottom:12px;}
+  button{padding:12px 16px;border-radius:10px;border:none;background:var(--gold);color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;}
+  button.secondary{background:var(--char2);color:var(--cream);border:1px solid var(--line);}
+  .error{color:var(--ember);font-size:12.5px;margin:-4px 0 10px;display:none;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .logout{font-size:12px;color:var(--cream-dim);background:none;border:none;text-decoration:underline;cursor:pointer;padding:0;}
+
+  .cat-block{margin-bottom:22px;}
+  .cat-name{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:10px;}
+  .cat-header-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;background:rgba(242,177,52,0.06);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;}
+  .cat-header-row .cat-name{margin:0;}
+  .group-block{margin:0 0 14px 4px;padding-left:10px;border-left:2px solid var(--line);}
+  .group-header-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0 6px;}
+  .group-name{font-size:11.5px;font-weight:700;color:var(--cream-dim);text-transform:uppercase;letter-spacing:.8px;}
+  .move-btns{display:flex;gap:4px;flex:0 0 auto;}
+  .move-btn{background:none;border:1px solid var(--line);color:var(--cream-dim);width:24px;height:22px;padding:0;border-radius:6px;font-size:10px;line-height:1;cursor:pointer;}
+  .move-btn:active{transform:scale(.9);}
+  .group-move-select{font-size:10.5px;padding:3px 5px;border-radius:6px;background:var(--char2);color:var(--cream);border:1px solid var(--line);max-width:150px;}
+  .row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .row .move-btns.item-move{flex-direction:column;gap:2px;}
+  .row .move-btns.item-move .move-btn{width:20px;height:16px;font-size:8px;}
+  .row .r-name{flex:1;min-width:140px;font-size:13px;color:var(--cream);}
+  .row .r-name small{display:block;color:var(--cream-dim);font-size:10.5px;}
+  .row input[type="number"]{width:72px;padding:7px 8px;border-radius:7px;border:1px solid var(--line);background:var(--char2);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+  .row .avail{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--cream-dim);}
+  .row .avail input{accent-color:var(--gold);}
+  .row .saved{font-size:10.5px;color:var(--teal);opacity:0;transition:opacity .3s;}
+  .row .saved.show{opacity:1;}
+
+  .log-card{margin-top:26px;}
+  .log-item{font-size:11.5px;color:var(--cream-dim);padding:6px 0;border-bottom:1px dashed var(--line);}
+  .log-item:last-child{border-bottom:none;}
+  .log-item b{color:var(--gold);font-weight:600;}
+  .empty{font-size:12px;color:var(--cream-dim);}
+  .loading{text-align:center;padding:30px;color:var(--cream-dim);font-size:13px;}
+
+  .row .del{background:none;border:1px solid var(--line);color:var(--ember);width:28px;height:28px;padding:0;border-radius:8px;font-size:13px;line-height:1;cursor:pointer;flex:0 0 auto;}
+  .row .photo-toggle{background:none;border:1px solid var(--line);color:var(--cream-dim);width:28px;height:28px;padding:0;border-radius:8px;font-size:13px;line-height:1;cursor:pointer;flex:0 0 auto;}
+  .row .photo-toggle.has-media{border-color:var(--gold);color:var(--gold);}
+
+  .media-panel{
+    background:var(--ink);border:1px solid var(--line);border-radius:12px;
+    padding:14px;margin:-2px 0 12px;display:none;
+  }
+  .media-panel.open{display:block;}
+  .photo-row{display:flex;gap:10px;margin-bottom:12px;}
+  .photo-slot{
+    width:76px;height:76px;border-radius:10px;flex:0 0 auto;position:relative;overflow:hidden;
+  }
+  .photo-slot.empty{
+    border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;color:var(--cream-dim);font-size:10.5px;text-align:center;padding:4px;
+  }
+  .photo-slot.empty:hover{border-color:var(--gold-deep,var(--gold));color:var(--gold);}
+  .photo-slot.filled img{width:100%;height:100%;object-fit:cover;display:block;}
+  .photo-replace{display:block;width:100%;height:100%;cursor:pointer;}
+  .photo-remove{
+    position:absolute;top:3px;right:3px;background:rgba(20,14,8,0.85);color:var(--ember);
+    border:none;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;line-height:1;
+  }
+  .desc-input{
+    width:100%;min-height:70px;padding:10px;border-radius:9px;border:1px solid var(--line);
+    background:var(--char2);color:var(--cream);font-size:12.5px;font-family:'Poppins',sans-serif;resize:vertical;
+  }
+  .word-count{font-size:10.5px;color:var(--cream-dim);margin:5px 0 10px;text-align:right;}
+  .word-count.over{color:var(--ember);}
+  .save-media{padding:9px 14px;font-size:12px;}
+  .media-msg{font-size:11px;margin-left:10px;}
+  .media-msg.ok{color:var(--teal);}
+  .media-msg.err{color:var(--ember);}
+
+  .add-card{margin-bottom:24px;}
+  .add-card h1{font-size:15px;margin-bottom:4px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:11px;color:var(--cream-dim);margin-bottom:5px;letter-spacing:.3px;}
+  .field input[type="text"], .field input[type="number"], .field select, .field textarea{
+    width:100%;padding:10px 11px;border-radius:9px;border:1px solid var(--line);
+    background:var(--char2);color:var(--cream);font-size:13px;font-family:'Poppins',sans-serif;
+  }
+  .field input[type="number"]{font-family:'JetBrains Mono',monospace;color:var(--gold);}
+  .field-row{display:flex;gap:10px;}
+  .field-row .field{flex:1;}
+  .mug-toggle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--cream-dim);margin:-2px 0 12px;}
+  .mug-toggle input{accent-color:var(--gold);}
+  .new-cat-fields, .new-group-field{
+    background:var(--ink);border:1px dashed var(--line);border-radius:10px;
+    padding:12px;margin-bottom:12px;
+  }
+  .new-cat-fields .hint, .new-group-field .hint{font-size:10.5px;color:var(--cream-dim);margin-bottom:10px;}
+  .add-msg{font-size:12px;margin-top:4px;display:none;}
+  .add-msg.ok{color:var(--teal);}
+  .add-msg.err{color:var(--ember);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="loginView">
+    <h1>Staff Admin</h1>
+    <div class="sub">Al-Rizwan Paratha Experts — menu control panel</div>
+    <div class="card">
+      <input type="password" id="password" placeholder="Enter staff password" autocomplete="current-password">
+      <div class="error" id="loginError">Incorrect password.</div>
+      <button id="loginBtn">Unlock</button>
+    </div>
+  </div>
+
+  <div id="panelView" style="display:none;">
+    <div class="topbar">
+      <div>
+        <h1>Menu Admin</h1>
+        <div class="sub">Changes save instantly and appear on every customer's phone.</div>
+      </div>
+      <button class="logout" id="logoutBtn">Log out</button>
+    </div>
+
+    <div class="card add-card">
+      <h1>➕ Add a new item</h1>
+      <div class="sub">Pick a section, or create a brand new category/section for it.</div>
+
+      <div class="field">
+        <label>Category</label>
+        <select id="catSelect"></select>
+      </div>
+
+      <div class="new-cat-fields" id="newCatFields" style="display:none;">
+        <div class="hint">New category details — appears as its own tab on the customer menu.</div>
+        <div class="field-row">
+          <div class="field"><label>Icon (emoji)</label><input type="text" id="newCatIcon" placeholder="🍚" maxlength="4"></div>
+          <div class="field" style="flex:2;"><label>Category name</label><input type="text" id="newCatLabel" placeholder="e.g. Rice"></div>
+        </div>
+        <div class="field"><label>Short description (shown under the title)</label><input type="text" id="newCatDesc" placeholder="e.g. Al-Rizwan special rice plates."></div>
+      </div>
+
+      <div class="field">
+        <label>Section (within the category)</label>
+        <select id="groupSelect"></select>
+      </div>
+
+      <div class="new-group-field" id="newGroupField" style="display:none;">
+        <div class="hint">New section name — groups related items together on the menu.</div>
+        <div class="field"><input type="text" id="newGroupName" placeholder="e.g. Rice Plates"></div>
+      </div>
+
+      <div class="field-row">
+        <div class="field"><label>Item name (English)</label><input type="text" id="itemName" placeholder="e.g. Zinger Shawarma"></div>
+        <div class="field"><label>Item name (Urdu)</label><input type="text" id="itemUrdu" placeholder="زنجر شاورما" dir="rtl"></div>
+      </div>
+
+      <div class="field-row">
+        <div class="field"><label>Price (Rs.)</label><input type="number" id="itemPrice" min="0" placeholder="450"></div>
+        <div class="field" id="mugPriceField" style="display:none;"><label>Mug price (Rs.)</label><input type="number" id="itemPrice2" min="0" placeholder="550"></div>
+      </div>
+      <div class="mug-toggle"><input type="checkbox" id="hasMug"> <label for="hasMug" style="margin:0;">This item also has a Mug / Large price</label></div>
+
+      <div class="mug-toggle"><input type="checkbox" id="itemAvailable" checked> <label for="itemAvailable" style="margin:0;">In stock (uncheck to add as "coming soon")</label></div>
+
+      <div class="field">
+        <label>Photos (optional, up to 3 — the first one also shows on the main menu list)</label>
+        <div class="photo-row" id="newItemPhotoRow"></div>
+      </div>
+
+      <div class="field">
+        <label>Description (optional, up to ~200 words — shown when a customer taps this dish)</label>
+        <textarea class="desc-input" id="newItemDesc" maxlength="1800" placeholder="Short description of the dish…"></textarea>
+        <div class="word-count" id="newItemWc">0 / 200 words</div>
+      </div>
+
+      <button id="addItemBtn" style="width:100%;">Add item to menu</button>
+      <div class="add-msg" id="addMsg"></div>
+    </div>
+
+    <div id="itemsArea" class="loading">Loading menu…</div>
+
+    <div class="card log-card">
+      <h1 style="font-size:14px;">Change log</h1>
+      <div id="logArea" class="empty">No changes yet.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const loginView = document.getElementById('loginView');
+const panelView = document.getElementById('panelView');
+
+async function checkSession(){
+  const res = await fetch('/api/admin/session');
+  const data = await res.json();
+  if(data.loggedIn) showPanel(); else showLogin();
+}
+
+function showLogin(){ loginView.style.display='block'; panelView.style.display='none'; }
+function showPanel(){ loginView.style.display='none'; panelView.style.display='block'; loadItems(); loadLog(); loadStructure(); }
+
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('password').addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
+
+async function login(){
+  const password = document.getElementById('password').value;
+  const res = await fetch('/api/admin/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ password })
+  });
+  if(res.ok){ showPanel(); }
+  else { document.getElementById('loginError').style.display = 'block'; }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+  await fetch('/api/admin/logout', { method:'POST' });
+  showLogin();
+});
+
+function escAttr(str){
+  return String(str || '').replace(/"/g, '&quot;');
+}
+
+async function loadItems(){
+  const res = await fetch('/api/admin/items');
+  if(res.status === 401){ showLogin(); return; }
+  if(!res.ok){ document.getElementById('itemsArea').innerHTML = '<div class="empty">Could not load the menu — check your connection and reload the page.</div>'; return; }
+  const items = await res.json();
+
+  let html = '';
+  let lastCatId = null, lastGroupId = null;
+  items.forEach(it=>{
+    if(it.category_id !== lastCatId){
+      if(lastCatId !== null) html += `</div></div>`;
+      html += `<div class="cat-block" data-cat-id="${it.category_id}">
+        <div class="cat-header-row">
+          <div class="cat-name">${it.category_icon} ${it.category_label}</div>
+          <div class="move-btns">
+            <button class="move-btn" data-move-cat="${it.category_id}" data-dir="up" title="Move category up">▲</button>
+            <button class="move-btn" data-move-cat="${it.category_id}" data-dir="down" title="Move category down">▼</button>
+            <button class="move-btn" data-rename-cat="${it.category_id}" data-label="${escAttr(it.category_label)}" title="Rename category">✎</button>
+            <button class="move-btn" data-del-cat="${it.category_id}" data-label="${escAttr(it.category_label)}" title="Delete category" style="color:var(--ember);border-color:rgba(213,52,43,0.4);">🗑</button>
+          </div>
+        </div>`;
+      lastCatId = it.category_id;
+      lastGroupId = null;
+    }
+    if(it.group_id !== lastGroupId){
+      if(lastGroupId !== null) html += `</div>`;
+      html += `<div class="group-block" data-group-id="${it.group_id}" data-cat-id="${it.category_id}">
+        <div class="group-header-row">
+          <div class="group-name">${it.group_name}</div>
+          <div class="move-btns">
+            <button class="move-btn" data-move-group="${it.group_id}" data-dir="up" title="Move section up">▲</button>
+            <button class="move-btn" data-move-group="${it.group_id}" data-dir="down" title="Move section down">▼</button>
+            <button class="move-btn" data-rename-group="${it.group_id}" data-name="${escAttr(it.group_name)}" title="Rename section">✎</button>
+            <button class="move-btn" data-shift-group="${it.group_id}" data-cur-cat="${it.category_id}" title="Move this section to a different category">⇄</button>
+            <button class="move-btn" data-del-group="${it.group_id}" data-name="${escAttr(it.group_name)}" title="Delete section" style="color:var(--ember);border-color:rgba(213,52,43,0.4);">🗑</button>
+          </div>
+        </div>`;
+      lastGroupId = it.group_id;
+    }
+    html += `
+      <div class="row" data-id="${it.id}">
+        <div class="move-btns item-move">
+          <button class="move-btn" data-move-item="${it.id}" data-dir="up" title="Move item up">▲</button>
+          <button class="move-btn" data-move-item="${it.id}" data-dir="down" title="Move item down">▼</button>
+        </div>
+        <div class="r-name">${it.name}</div>
+        <input type="number" class="p-price" value="${it.price}" min="0">
+        ${it.price2 !== null ? `<input type="number" class="p-price2" value="${it.price2}" min="0">` : ''}
+        <label class="avail"><input type="checkbox" class="p-avail" ${it.available ? 'checked':''}> In stock</label>
+        <span class="saved" id="saved-${it.id}">Saved ✓</span>
+        <button class="photo-toggle" data-toggle-media="${it.id}" title="Photos & description">📷</button>
+        <button class="photo-toggle" data-rename-item="${it.id}" data-name="${escAttr(it.name)}" data-urdu="${escAttr(it.urdu||'')}" title="Rename item">✎</button>
+        <button class="del" title="Delete item" data-del="${it.id}" data-name="${it.name.replace(/"/g,'&quot;')}">✕</button>
+      </div>
+      <div class="media-panel" id="media-${it.id}" data-loaded="0"></div>`;
+  });
+  if(lastCatId !== null) html += `</div></div>`;
+
+  document.getElementById('itemsArea').innerHTML = html || '<div class="empty">No menu items found — run the seed script.</div>';
+}
+
+async function moveEntity(kind, id, dir){
+  const res = await fetch(`/api/admin/${kind}/${id}/move`, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ direction: dir })
+  });
+  if(res.status === 401){ showLogin(); return; }
+  if(res.ok){ await loadItems(); loadLog(); }
+  else{
+    const data = await res.json().catch(()=>({}));
+    alert(data.error || 'Could not reorder — please try again.');
+  }
+}
+
+// Swaps a group's header buttons for an inline "move to another category"
+// picker, built from whatever STRUCTURE (loaded by loadStructure) already
+// has. Used for moving a section — e.g. "Chai, Lassi & More" — out from
+// under one main category and onto another, like a separate Drinks category.
+function openGroupMoveUI(groupId, curCatId){
+  const block = document.querySelector(`.group-block[data-group-id="${groupId}"]`);
+  const row = block ? block.querySelector('.move-btns') : null;
+  if(!row) return;
+
+  const options = STRUCTURE.filter(c => c.id !== curCatId)
+    .map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('');
+  if(!options){ alert('There\'s no other category to move this section into yet — add one first from "Add a new item" below.'); return; }
+
+  row.innerHTML = `
+    <select class="group-move-select">${options}</select>
+    <button class="move-btn" data-confirm-shift="${groupId}" title="Move here" style="color:var(--teal);border-color:var(--teal);">✓</button>
+    <button class="move-btn" data-cancel-shift="${groupId}" title="Cancel">✕</button>`;
+}
+
+/* ---------------- Delegated events for the items list ----------------
+   Attached ONCE (not inside loadItems), so re-rendering the list after an
+   add/edit/delete never re-registers duplicate handlers, and newly added
+   rows work automatically without needing to be re-bound. */
+const itemsArea = document.getElementById('itemsArea');
+const mediaState = {}; // { [itemId]: { images: [url|null, url|null, url|null], loaded: true } }
+
+itemsArea.addEventListener('change', async (e)=>{
+  const row = e.target.closest('.row');
+  if(row && (e.target.matches('.p-price') || e.target.matches('.p-price2') || e.target.matches('.p-avail'))){
+    const id = row.dataset.id;
+    const priceInput = row.querySelector('.p-price');
+    const price2Input = row.querySelector('.p-price2');
+    const availInput = row.querySelector('.p-avail');
+    const body = { price: Number(priceInput.value), available: availInput.checked };
+    if(price2Input) body.price2 = Number(price2Input.value);
+
+    const res = await fetch(`/api/admin/items/${id}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){
+      const badge = document.getElementById(`saved-${id}`);
+      badge.classList.add('show');
+      setTimeout(()=>badge.classList.remove('show'), 1500);
+      loadLog();
+    }else{
+      const data = await res.json().catch(()=>({}));
+      alert(data.error || 'Could not save that change — please try again.');
+    }
+    return;
+  }
+
+  if(e.target.matches('.photo-input')){
+    const panel = e.target.closest('.media-panel');
+    const id = panel.id.replace('media-','');
+    const slot = Number(e.target.dataset.slotInput);
+    const file = e.target.files[0];
+    if(!file) return;
+    try{
+      const dataUrl = await compressImage(file);
+      mediaState[id].images[slot] = dataUrl;
+      renderPhotoRow(id);
+    }catch(err){
+      alert('Could not read that photo — try a different file.');
+    }
+  }
+});
+
+itemsArea.addEventListener('input', (e)=>{
+  if(e.target.matches('.desc-input')){
+    const id = e.target.id.replace('desc-','');
+    updateWordCount(id);
+  }
+});
+
+itemsArea.addEventListener('click', async (e)=>{
+  const moveCatBtn = e.target.closest('[data-move-cat]');
+  if(moveCatBtn){ await moveEntity('categories', moveCatBtn.dataset.moveCat, moveCatBtn.dataset.dir); return; }
+
+  const moveGroupBtn = e.target.closest('[data-move-group]');
+  if(moveGroupBtn){ await moveEntity('groups', moveGroupBtn.dataset.moveGroup, moveGroupBtn.dataset.dir); return; }
+
+  const moveItemBtn = e.target.closest('[data-move-item]');
+  if(moveItemBtn){ await moveEntity('items', moveItemBtn.dataset.moveItem, moveItemBtn.dataset.dir); return; }
+
+  const renameCatBtn = e.target.closest('[data-rename-cat]');
+  if(renameCatBtn){
+    const id = renameCatBtn.dataset.renameCat;
+    const current = renameCatBtn.dataset.label;
+    const next = prompt('Rename category to:', current);
+    if(next === null) return;
+    const label = next.trim();
+    if(!label || label === current) return;
+    const res = await fetch(`/api/admin/categories/${id}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ label, title: label })
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); loadStructure(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not rename this category.'); }
+    return;
+  }
+
+  const delCatBtn = e.target.closest('[data-del-cat]');
+  if(delCatBtn){
+    const id = delCatBtn.dataset.delCat;
+    const label = delCatBtn.dataset.label;
+    if(!confirm(`Delete the "${label}" category — and every section & item inside it? This cannot be undone.`)) return;
+    const res = await fetch(`/api/admin/categories/${id}`, { method:'DELETE' });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); loadStructure(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not delete this category.'); }
+    return;
+  }
+
+  const renameGroupBtn = e.target.closest('[data-rename-group]');
+  if(renameGroupBtn){
+    const id = renameGroupBtn.dataset.renameGroup;
+    const current = renameGroupBtn.dataset.name;
+    const next = prompt('Rename section to:', current);
+    if(next === null) return;
+    const name = next.trim();
+    if(!name || name === current) return;
+    const res = await fetch(`/api/admin/groups/${id}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name })
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not rename this section.'); }
+    return;
+  }
+
+  const delGroupBtn = e.target.closest('[data-del-group]');
+  if(delGroupBtn){
+    const id = delGroupBtn.dataset.delGroup;
+    const name = delGroupBtn.dataset.name;
+    if(!confirm(`Delete the "${name}" section — and every item inside it? This cannot be undone.`)) return;
+    const res = await fetch(`/api/admin/groups/${id}`, { method:'DELETE' });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not delete this section.'); }
+    return;
+  }
+
+  const shiftGroupBtn = e.target.closest('[data-shift-group]');
+  if(shiftGroupBtn){
+    openGroupMoveUI(shiftGroupBtn.dataset.shiftGroup, shiftGroupBtn.dataset.curCat);
+    return;
+  }
+
+  const confirmShiftBtn = e.target.closest('[data-confirm-shift]');
+  if(confirmShiftBtn){
+    const groupId = confirmShiftBtn.dataset.confirmShift;
+    const select = confirmShiftBtn.parentElement.querySelector('.group-move-select');
+    const categoryId = select ? select.value : null;
+    if(!categoryId) return;
+    const res = await fetch(`/api/admin/groups/${groupId}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ category_id: categoryId })
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not move this section.'); await loadItems(); }
+    return;
+  }
+
+  const cancelShiftBtn = e.target.closest('[data-cancel-shift]');
+  if(cancelShiftBtn){ await loadItems(); return; }
+
+  const renameItemBtn = e.target.closest('[data-rename-item]');
+  if(renameItemBtn){
+    const id = renameItemBtn.dataset.renameItem;
+    const currentName = renameItemBtn.dataset.name;
+    const currentUrdu = renameItemBtn.dataset.urdu;
+    const nextName = prompt('Item name (English):', currentName);
+    if(nextName === null) return;
+    const name = nextName.trim();
+    if(!name){ alert('Name cannot be empty.'); return; }
+    const nextUrdu = prompt('Item name (Urdu) — leave as-is or edit:', currentUrdu);
+    const urdu = nextUrdu === null ? currentUrdu : nextUrdu.trim();
+    if(name === currentName && urdu === currentUrdu) return;
+    const res = await fetch(`/api/admin/items/${id}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name, urdu })
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ await loadItems(); loadLog(); }
+    else{ const data = await res.json().catch(()=>({})); alert(data.error || 'Could not rename this item.'); }
+    return;
+  }
+
+  const delBtn = e.target.closest('[data-del]');
+  if(delBtn){
+    if(!confirm(`Remove "${delBtn.dataset.name}" from the menu?`)) return;
+    const res = await fetch(`/api/admin/items/${delBtn.dataset.del}`, { method:'DELETE' });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){ loadItems(); loadLog(); }
+    else{
+      const data = await res.json().catch(()=>({}));
+      alert(data.error || 'Could not delete this item — please try again.');
+    }
+    return;
+  }
+
+  const toggleBtn = e.target.closest('[data-toggle-media]');
+  if(toggleBtn){
+    const id = toggleBtn.dataset.toggleMedia;
+    await toggleMediaPanel(id);
+    return;
+  }
+
+  const removeBtn = e.target.closest('.photo-remove');
+  if(removeBtn){
+    const panel = removeBtn.closest('.media-panel');
+    const id = panel.id.replace('media-','');
+    const slot = Number(removeBtn.dataset.remove);
+    mediaState[id].images[slot] = null;
+    renderPhotoRow(id);
+    return;
+  }
+
+  const saveBtn = e.target.closest('[data-save-media]');
+  if(saveBtn){
+    const id = saveBtn.dataset.saveMedia;
+    await saveMedia(id);
+    return;
+  }
+});
+
+function compressImage(file, maxDim = 800, quality = 0.72){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('read failed'));
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onerror = () => reject(new Error('image failed — this browser may not support that photo format (e.g. HEIC). Try a JPG or PNG.'));
+      img.onload = ()=>{
+        let { width, height } = img;
+        if(width > height && width > maxDim){ height = height * (maxDim / width); width = maxDim; }
+        else if(height > maxDim){ width = width * (maxDim / height); height = maxDim; }
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(width);
+        canvas.height = Math.round(height);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Shrinks an already-compressed data URI down further, for the small
+// preview shown in the main customer menu list (kept separate from the
+// full-size photo used in the dish detail popup, so the main list stays
+// fast to load even once every dish has photos).
+function shrinkDataUrl(dataUrl, maxDim = 220, quality = 0.55){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    img.onerror = () => reject(new Error('thumbnail failed'));
+    img.onload = ()=>{
+      let { width, height } = img;
+      if(width > height && width > maxDim){ height = height * (maxDim / width); width = maxDim; }
+      else if(height > maxDim){ width = width * (maxDim / height); height = maxDim; }
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(width);
+      canvas.height = Math.round(height);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+
+// Given a slot array like [imgOrNull, imgOrNull, imgOrNull], builds the
+// small thumbnail from whichever photo is first, or null if there are none.
+async function buildThumb(imagesArray){
+  const first = imagesArray.find(Boolean);
+  if(!first) return null;
+  try{ return await shrinkDataUrl(first); }
+  catch(err){ return null; }
+}
+
+async function toggleMediaPanel(id){
+  const panel = document.getElementById(`media-${id}`);
+  if(!panel) return;
+
+  if(panel.classList.contains('open')){
+    panel.classList.remove('open');
+    return;
+  }
+
+  if(panel.dataset.loaded === '0'){
+    panel.innerHTML = '<div class="empty">Loading…</div>';
+    panel.classList.add('open');
+    const res = await fetch(`/api/admin/items/${id}/media`);
+    if(res.status === 401){ showLogin(); return; }
+    if(!res.ok){ panel.innerHTML = '<div class="empty">Could not load photos for this item.</div>'; return; }
+    const data = await res.json();
+    const images = [0,1,2].map(i => data.images[i] || null);
+    mediaState[id] = { images };
+    panel.dataset.loaded = '1';
+    panel.innerHTML = `
+      <div class="photo-row" id="photo-row-${id}"></div>
+      <textarea class="desc-input" id="desc-${id}" maxlength="1800" placeholder="Short description (up to ~200 words) — shown when a customer taps this dish.">${escapeHtml(data.description || '')}</textarea>
+      <div class="word-count" id="wc-${id}">0 / 200 words</div>
+      <div>
+        <button class="save-media" data-save-media="${id}">Save photos &amp; description</button>
+        <span class="media-msg" id="media-msg-${id}"></span>
+      </div>`;
+    renderPhotoRow(id);
+    updateWordCount(id);
+    const toggleBtn = document.querySelector(`[data-toggle-media="${id}"]`);
+    if(toggleBtn && images.some(Boolean)) toggleBtn.classList.add('has-media');
+  }else{
+    panel.classList.add('open');
+  }
+}
+
+function renderPhotoRow(id){
+  const row = document.getElementById(`photo-row-${id}`);
+  if(!row) return;
+  const images = mediaState[id].images;
+  row.innerHTML = images.map((img, i)=>{
+    if(img){
+      return `<div class="photo-slot filled">
+        <label class="photo-replace" title="Tap to replace">
+          <input type="file" accept="image/*" class="photo-input" data-slot-input="${i}" hidden>
+          <img src="${img}">
+        </label>
+        <button class="photo-remove" data-remove="${i}" title="Remove">✕</button>
+      </div>`;
+    }
+    return `<label class="photo-slot empty"><input type="file" accept="image/*" class="photo-input" data-slot-input="${i}" hidden><span>+ Photo</span></label>`;
+  }).join('');
+}
+
+function updateWordCount(id){
+  const textarea = document.getElementById(`desc-${id}`);
+  const el = document.getElementById(`wc-${id}`);
+  if(!textarea || !el) return;
+  const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+  el.textContent = `${words} / 200 words`;
+  el.classList.toggle('over', words > 200);
+}
+
+async function saveMedia(id){
+  const textarea = document.getElementById(`desc-${id}`);
+  const msg = document.getElementById(`media-msg-${id}`);
+  const saveBtn = document.querySelector(`[data-save-media="${id}"]`);
+  const images = mediaState[id].images.filter(Boolean);
+  const description = textarea.value.trim();
+
+  if(saveBtn){ saveBtn.disabled = true; saveBtn.textContent = 'Saving…'; }
+  msg.textContent = '';
+  msg.className = 'media-msg';
+
+  let thumb = null;
+  try{
+    thumb = await buildThumb(mediaState[id].images);
+  }catch(err){ /* fall back to no thumbnail rather than blocking the save */ }
+
+  try{
+    const res = await fetch(`/api/admin/items/${id}`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ description, images, thumb })
+    });
+    if(res.status === 401){ showLogin(); return; }
+    if(res.ok){
+      msg.textContent = 'Saved ✓';
+      msg.className = 'media-msg ok';
+      const toggleBtn = document.querySelector(`[data-toggle-media="${id}"]`);
+      if(toggleBtn) toggleBtn.classList.toggle('has-media', images.length > 0 || description.length > 0);
+      loadLog();
+      setTimeout(()=>{ msg.textContent = ''; }, 2500);
+    }else{
+      const data = await res.json().catch(()=>({}));
+      msg.textContent = data.error || 'Could not save.';
+      msg.className = 'media-msg err';
+    }
+  }catch(err){
+    msg.textContent = 'Could not save — check your connection and try again.';
+    msg.className = 'media-msg err';
+  }finally{
+    if(saveBtn){ saveBtn.disabled = false; saveBtn.textContent = 'Save photos & description'; }
+  }
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ---------------- Add new item ---------------- */
+let STRUCTURE = [];
+
+async function loadStructure(){
+  const res = await fetch('/api/admin/structure');
+  if(res.status === 401){ showLogin(); return; }
+  if(!res.ok) return;
+  STRUCTURE = await res.json();
+  renderCatSelect();
+}
+
+function renderCatSelect(){
+  const sel = document.getElementById('catSelect');
+  sel.innerHTML = STRUCTURE.map(c=>`<option value="${c.id}">${c.icon} ${c.label}</option>`).join('')
+    + `<option value="__new__">➕ New category…</option>`;
+  sel.onchange = onCatChange; // property assignment overwrites, never stacks duplicate handlers
+  onCatChange();
+}
+
+function onCatChange(){
+  const sel = document.getElementById('catSelect');
+  const isNew = sel.value === '__new__';
+  document.getElementById('newCatFields').style.display = isNew ? 'block' : 'none';
+  renderGroupSelect(isNew ? null : sel.value);
+}
+
+function renderGroupSelect(categoryId){
+  const groupSel = document.getElementById('groupSelect');
+  const cat = STRUCTURE.find(c=>c.id === categoryId);
+  const groups = cat ? cat.groups : [];
+  groupSel.innerHTML = groups.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')
+    + `<option value="__new__">➕ New section…</option>`;
+  groupSel.onchange = ()=>{
+    document.getElementById('newGroupField').style.display = groupSel.value === '__new__' ? 'block' : 'none';
+  };
+  groupSel.onchange();
+}
+
+document.getElementById('hasMug').addEventListener('change', (e)=>{
+  document.getElementById('mugPriceField').style.display = e.target.checked ? 'block' : 'none';
+});
+
+/* ---------------- Photos for the "Add new item" form ----------------
+   Independent of the per-item media panel above — this lets an admin attach
+   photos to a dish right when it's created, instead of having to save the
+   item first and then open its photo editor. */
+let newItemImages = [null, null, null];
+
+function renderNewItemPhotoRow(){
+  const row = document.getElementById('newItemPhotoRow');
+  row.innerHTML = newItemImages.map((img, i)=>{
+    if(img){
+      return `<div class="photo-slot filled">
+        <label class="photo-replace" title="Tap to replace">
+          <input type="file" accept="image/*" class="new-photo-input" data-new-slot-input="${i}" hidden>
+          <img src="${img}">
+        </label>
+        <button type="button" class="photo-remove" data-new-remove="${i}" title="Remove">✕</button>
+      </div>`;
+    }
+    return `<label class="photo-slot empty"><input type="file" accept="image/*" class="new-photo-input" data-new-slot-input="${i}" hidden><span>+ Photo</span></label>`;
+  }).join('');
+}
+
+document.getElementById('newItemPhotoRow').addEventListener('change', async (e)=>{
+  if(!e.target.matches('.new-photo-input')) return;
+  const slot = Number(e.target.dataset.newSlotInput);
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const dataUrl = await compressImage(file);
+    newItemImages[slot] = dataUrl;
+    renderNewItemPhotoRow();
+  }catch(err){
+    alert('Could not read that photo — try a different file.');
+  }
+});
+
+document.getElementById('newItemPhotoRow').addEventListener('click', (e)=>{
+  const removeBtn = e.target.closest('[data-new-remove]');
+  if(!removeBtn) return;
+  const slot = Number(removeBtn.dataset.newRemove);
+  newItemImages[slot] = null;
+  renderNewItemPhotoRow();
+});
+
+renderNewItemPhotoRow();
+
+document.getElementById('newItemDesc').addEventListener('input', ()=>{
+  const textarea = document.getElementById('newItemDesc');
+  const el = document.getElementById('newItemWc');
+  const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+  el.textContent = `${words} / 200 words`;
+  el.classList.toggle('over', words > 200);
+});
+
+function slugify(str){
+  return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'category';
+}
+
+function showAddMsg(text, ok){
+  const el = document.getElementById('addMsg');
+  el.textContent = text;
+  el.className = 'add-msg ' + (ok ? 'ok' : 'err');
+  el.style.display = 'block';
+  if(ok) setTimeout(()=>{ el.style.display='none'; }, 3000);
+}
+
+document.getElementById('addItemBtn').addEventListener('click', async ()=>{
+  const addBtn = document.getElementById('addItemBtn');
+  const catSel = document.getElementById('catSelect');
+  const groupSel = document.getElementById('groupSelect');
+  const name = document.getElementById('itemName').value.trim();
+  const urdu = document.getElementById('itemUrdu').value.trim();
+  const price = document.getElementById('itemPrice').value;
+  const hasMug = document.getElementById('hasMug').checked;
+  const price2 = hasMug ? document.getElementById('itemPrice2').value : null;
+  const available = document.getElementById('itemAvailable').checked;
+  const description = document.getElementById('newItemDesc').value.trim();
+
+  if(!name || price === ''){ showAddMsg('Please enter at least an item name and price.', false); return; }
+
+  addBtn.disabled = true;
+  addBtn.textContent = 'Adding…';
+
+  try{
+    let categoryId = catSel.value;
+
+    if(categoryId === '__new__'){
+      const icon = document.getElementById('newCatIcon').value.trim() || '🍽️';
+      const label = document.getElementById('newCatLabel').value.trim();
+      const catDescription = document.getElementById('newCatDesc').value.trim();
+      if(!label){ showAddMsg('Please name the new category.', false); return; }
+      categoryId = slugify(label);
+      const res = await fetch('/api/admin/categories', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ id: categoryId, icon, label, title: label, description: catDescription })
+      });
+      if(res.status === 401){ showLogin(); return; }
+      const data = await res.json();
+      if(!res.ok){ showAddMsg(data.error || 'Could not create category.', false); return; }
+    }
+
+    let groupId = groupSel.value;
+    if(groupId === '__new__'){
+      const groupName = document.getElementById('newGroupName').value.trim();
+      if(!groupName){ showAddMsg('Please name the new section.', false); return; }
+      const res = await fetch('/api/admin/groups', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ category_id: categoryId, name: groupName })
+      });
+      if(res.status === 401){ showLogin(); return; }
+      const data = await res.json();
+      if(!res.ok){ showAddMsg(data.error || 'Could not create section.', false); return; }
+      groupId = data.id;
+    }
+
+    const images = newItemImages.filter(Boolean);
+    let thumb = null;
+    try{ thumb = await buildThumb(newItemImages); }
+    catch(err){ /* no thumbnail — item still saves fine without one */ }
+
+    const itemRes = await fetch('/api/admin/items', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ group_id: groupId, name, urdu, price, price2, available, description, images, thumb })
+    });
+    if(itemRes.status === 401){ showLogin(); return; }
+    const itemData = await itemRes.json();
+    if(!itemRes.ok){ showAddMsg(itemData.error || 'Could not add item.', false); return; }
+
+    showAddMsg(`"${name}" added to the menu ✓`, true);
+    document.getElementById('itemName').value = '';
+    document.getElementById('itemUrdu').value = '';
+    document.getElementById('itemPrice').value = '';
+    document.getElementById('itemPrice2').value = '';
+    document.getElementById('hasMug').checked = false;
+    document.getElementById('mugPriceField').style.display = 'none';
+    document.getElementById('newCatIcon').value = '';
+    document.getElementById('newCatLabel').value = '';
+    document.getElementById('newCatDesc').value = '';
+    document.getElementById('newGroupName').value = '';
+    document.getElementById('newItemDesc').value = '';
+    document.getElementById('newItemWc').textContent = '0 / 200 words';
+    document.getElementById('newItemWc').classList.remove('over');
+    newItemImages = [null, null, null];
+    renderNewItemPhotoRow();
+
+    await loadStructure();
+    await loadItems();
+    await loadLog();
+  }catch(err){
+    showAddMsg('Something went wrong — check your connection and try again.', false);
+  }finally{
+    addBtn.disabled = false;
+    addBtn.textContent = 'Add item to menu';
+  }
+});
+
+async function loadLog(){
+  const res = await fetch('/api/admin/log');
+  if(res.status === 401){ showLogin(); return; }
+  if(!res.ok) return;
+  const rows = await res.json();
+  if(!rows.length){ document.getElementById('logArea').innerHTML = '<div class="empty">No changes yet.</div>'; return; }
+  document.getElementById('logArea').innerHTML = rows.map(r=>{
+    const t = new Date(r.created_at).toLocaleString([], {dateStyle:'medium', timeStyle:'short'});
+    return `<div class="log-item"><b>${t}</b> — ${r.message}</div>`;
+  }).join('');
+}
+
+checkSession();
+</script>
+</body>
+</html>
