@@ -49,6 +49,7 @@ router.get('/menu', async (req, res) => {
       title: cat.title,
       description: cat.description,
       groups: (groupsByCat[cat.id] || []).map(g => ({
+        id: g.id,
         name: g.name,
         items: itemsByGroup[g.id] || [],
       })),
