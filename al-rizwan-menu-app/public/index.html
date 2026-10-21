@@ -283,6 +283,10 @@
   .branch:last-child{border-bottom:none;}
   .branch .n{color:var(--cream-dim);font-weight:600;flex:0 0 auto;}
   .branch .a{text-align:right;color:var(--cream);}
+  .branch .a a{color:var(--cream);text-decoration:none;display:inline-flex;align-items:center;gap:6px;justify-content:flex-end;}
+  .branch .a a:hover,.branch .a a:active{color:var(--gold);}
+  .branch .a a .pin{flex:0 0 auto;font-size:13px;}
+  .branch .a a .txt{border-bottom:1px dashed rgba(242,177,52,0.45);}
   .app-icon-grid{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap;justify-content:center;text-align:center;}
   .app-icon-tile{
     display:flex;flex-direction:column;align-items:center;gap:7px;
@@ -503,10 +507,10 @@
 
   <div class="footer">
     <h3>OUR BRANCHES</h3>
-    <div class="branch"><span class="n">Branch 1</span><span class="a">Zaildar Road, Ichra</span></div>
-    <div class="branch"><span class="n">Branch 2</span><span class="a">Mor Saman Abad</span></div>
-    <div class="branch"><span class="n">Branch 3</span><span class="a">Pakki Thati Road, Lahore</span></div>
-    <div class="branch"><span class="n">Branch 4</span><span class="a">Ganga Ram, Near Gate No.4, Queen Road</span></div>
+    <div class="branch"><span class="n">Branch 1</span><span class="a"><a href="https://share.google/QiZLR6DXvE0bCWnrD" target="_blank" rel="noopener" aria-label="Open Zaildar Road, Ichra in Google Maps"><span class="pin">📍</span><span class="txt">Zaildar Road, Ichra</span></a></span></div>
+    <div class="branch"><span class="n">Branch 2</span><span class="a"><a href="https://share.google/83MxMgLZDV65Zl6N3" target="_blank" rel="noopener" aria-label="Open Mor Saman Abad in Google Maps"><span class="pin">📍</span><span class="txt">Mor Saman Abad</span></a></span></div>
+    <div class="branch"><span class="n">Branch 3</span><span class="a"><a href="https://share.google/Gjw5FkFnOhsyoRVfR" target="_blank" rel="noopener" aria-label="Open Pakki Thati Road, Lahore in Google Maps"><span class="pin">📍</span><span class="txt">Pakki Thati Road, Lahore</span></a></span></div>
+    <div class="branch"><span class="n">Branch 4</span><span class="a"><a href="https://share.google/EPohLSnsZTyPErihz" target="_blank" rel="noopener" aria-label="Open Ganga Ram, Near Gate No.4, Queen Road in Google Maps"><span class="pin">📍</span><span class="txt">Ganga Ram, Near Gate No.4, Queen Road</span></a></span></div>
 
     <h3 style="margin-top:22px;">FOLLOW &amp; ORDER</h3>
     <div class="app-icon-grid">
